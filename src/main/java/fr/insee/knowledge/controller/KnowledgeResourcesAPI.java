@@ -48,9 +48,8 @@ public class KnowledgeResourcesAPI {
                 .setURI("https://github.com/bwerquin/Knowledge-Data.git")
                 .setDirectory(localPath)
                 .call();
-        NotFileFilter suffixFileFilterFileFilter=new NotFileFilter(new
-                SuffixFileFilter(new String[] { "txt", "java" }));
-        Collection<File> files = FileUtils.listFiles(localPath, null, TrueFileFilter.INSTANCE);
+        NotFileFilter suffixFileFilterFileFilter=new NotFileFilter(new SuffixFileFilter(new String[] { "txt", "java" }));
+        Collection<File> files = FileUtils.listFiles(localPath, suffixFileFilterFileFilter, TrueFileFilter.INSTANCE);
         for(File file2 : files){
             KnowledgeFile file = new KnowledgeFile();
             file.setFileName(file2.getName());
