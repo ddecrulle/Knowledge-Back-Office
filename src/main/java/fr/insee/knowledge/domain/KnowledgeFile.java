@@ -1,12 +1,12 @@
 package fr.insee.knowledge.domain;
 
-public class File {
+public class KnowledgeFile {
 
     private String path;
     private String fileName;
     private boolean folder;
 
-    public File() {
+    public KnowledgeFile() {
     }
 
     public String getPath() {
