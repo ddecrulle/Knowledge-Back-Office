@@ -1,6 +1,8 @@
 package fr.insee.knowledge.controller;
 
+import fr.insee.knowledge.data.access.ServiceDataAccess;
 import fr.insee.knowledge.domain.KnowledgeFile;
+import fr.insee.knowledge.domain.Service;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.filefilter.NotFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
@@ -8,6 +10,7 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +22,10 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.nio.file.Files;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.Locale;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -32,8 +33,11 @@ public class KnowledgeResourcesAPI {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(KnowledgeResourcesAPI.class);
 
+    @Autowired
+    ServiceDataAccess serviceDataAccess;
+
     /**
-     * This method is using to get all files from git repo
+     * This method is using to get all files from git repo with JSON extensions
      *
      * @return List of all {@link KnowledgeFile}
      */
@@ -48,7 +52,7 @@ public class KnowledgeResourcesAPI {
                 .setURI("https://github.com/bwerquin/Knowledge-Data.git")
                 .setDirectory(localPath)
                 .call();
-        NotFileFilter suffixFileFilterFileFilter=new NotFileFilter(new SuffixFileFilter(new String[] { "txt", "java" }));
+        NotFileFilter suffixFileFilterFileFilter=new NotFileFilter(new SuffixFileFilter(new String[] { "md", "MD", ".git",".pack","idx" }));
         Collection<File> files = FileUtils.listFiles(localPath, suffixFileFilterFileFilter, TrueFileFilter.INSTANCE);
         for(File file2 : files){
             KnowledgeFile file = new KnowledgeFile();
@@ -61,6 +65,39 @@ public class KnowledgeResourcesAPI {
         LOGGER.info("GET files resulting in 200");
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
+
+    /**
+     * This method is using to get services JSON representation
+     *
+     * @return List of all {@link fr.insee.knowledge.domain.Service}
+     */
+    @ApiOperation(value = "Get services")
+    @GetMapping(path = "/services")
+    public ResponseEntity<Object> getServices() throws IOException, GitAPIException {
+        List<Service> services = null;
+        File localPath = File.createTempFile("GitRepositoryKnowledge", "");
+        Files.delete(localPath.toPath());
+
+        Git git = Git.cloneRepository()
+                .setURI("https://github.com/bwerquin/Knowledge-Data.git")
+                .setDirectory(localPath)
+                .call();
+        NotFileFilter suffixFileFilterFileFilter=new NotFileFilter(new SuffixFileFilter(new String[] { "md", "MD", ".git",".pack","idx"}));
+        Collection<File> files = FileUtils.listFiles(localPath, suffixFileFilterFileFilter, TrueFileFilter.INSTANCE);
+        for(File file2 : files){
+            KnowledgeFile file = new KnowledgeFile();
+            file.setFileName(file2.getName());
+            file.setFolder(file2.isDirectory());
+            file.setPath(file2.getPath());
+            if(file2.getName().toUpperCase(Locale.ROOT).equalsIgnoreCase("services.json")){
+                services = serviceDataAccess.serializeFromFile(file);
+                LOGGER.info("services.json serialized");
+            }
+        }
+        LOGGER.info("GET services resulting in 200");
+        return new ResponseEntity<>(services, HttpStatus.OK);
+    }
+
 
 }
 
