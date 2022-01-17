@@ -1,13 +1,20 @@
 package fr.insee.knowledge.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.util.List;
 
 public class Gsbpm {
 
+    @JsonProperty("id")
     private String id;
+    @JsonProperty("label")
     private String label;
+    @JsonProperty("description")
     private String description;
-    private List<Gsbpm> children;
+    @JsonDeserialize(contentAs=Gsbpm.class)
+    private List<Gsbpm> processus;
 
     public String getId() {
         return id;
@@ -33,11 +40,11 @@ public class Gsbpm {
         this.description = description;
     }
 
-    public List<Gsbpm> getChildren() {
-        return children;
+    public List<Gsbpm> getProcessus() {
+        return processus;
     }
 
-    public void setChildren(List<Gsbpm> children) {
-        this.children = children;
+    public void setProcessus(List<Gsbpm> processus) {
+        this.processus = processus;
     }
 }

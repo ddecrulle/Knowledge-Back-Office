@@ -1,7 +1,11 @@
 package fr.insee.knowledge.controller;
 
-import fr.insee.knowledge.data.access.ServiceDataAccess;
+import fr.insee.knowledge.git.access.GsbpmDataAccess;
+import fr.insee.knowledge.git.access.ProductDataAccess;
+import fr.insee.knowledge.git.access.ServiceDataAccess;
+import fr.insee.knowledge.domain.Gsbpm;
 import fr.insee.knowledge.domain.KnowledgeFile;
+import fr.insee.knowledge.domain.Product;
 import fr.insee.knowledge.domain.Service;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.filefilter.NotFileFilter;
@@ -28,13 +32,19 @@ import java.util.List;
 import java.util.Locale;
 
 @RestController
-@RequestMapping(path = "/api")
+@RequestMapping(path = "/git")
 public class KnowledgeResourcesAPI {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(KnowledgeResourcesAPI.class);
 
     @Autowired
     ServiceDataAccess serviceDataAccess;
+
+    @Autowired
+    GsbpmDataAccess gsbpmDataAccess;
+
+    @Autowired
+    ProductDataAccess productDataAccess;
 
     /**
      * This method is using to get all files from git repo with JSON extensions
@@ -67,11 +77,11 @@ public class KnowledgeResourcesAPI {
     }
 
     /**
-     * This method is using to get services JSON representation
+     * This method is using to get services JSON representation from git repo
      *
      * @return List of all {@link fr.insee.knowledge.domain.Service}
      */
-    @ApiOperation(value = "Get services")
+    @ApiOperation(value = "Get services from git repo")
     @GetMapping(path = "/services")
     public ResponseEntity<Object> getServices() throws IOException, GitAPIException {
         List<Service> services = null;
@@ -96,6 +106,70 @@ public class KnowledgeResourcesAPI {
         }
         LOGGER.info("GET services resulting in 200");
         return new ResponseEntity<>(services, HttpStatus.OK);
+    }
+
+    /**
+     * This method is using to get GSBPM JSON representation from git repo
+     *
+     * @return List of all {@link fr.insee.knowledge.domain.Gsbpm}
+     */
+    @ApiOperation(value = "Get GSBPM Phases from git repo")
+    @GetMapping(path = "/gsbpm")
+    public ResponseEntity<Object> getGSBPM() throws IOException, GitAPIException {
+        List<Gsbpm> gsbpms = null;
+        File localPath = File.createTempFile("GitRepositoryKnowledge", "");
+        Files.delete(localPath.toPath());
+
+        Git git = Git.cloneRepository()
+                .setURI("https://github.com/bwerquin/Knowledge-Data.git")
+                .setDirectory(localPath)
+                .call();
+        NotFileFilter suffixFileFilterFileFilter=new NotFileFilter(new SuffixFileFilter(new String[] { "md", "MD", ".git",".pack","idx"}));
+        Collection<File> files = FileUtils.listFiles(localPath, suffixFileFilterFileFilter, TrueFileFilter.INSTANCE);
+        for(File file2 : files){
+            KnowledgeFile file = new KnowledgeFile();
+            file.setFileName(file2.getName());
+            file.setFolder(file2.isDirectory());
+            file.setPath(file2.getPath());
+            if(file2.getName().toUpperCase(Locale.ROOT).equalsIgnoreCase("gsbpm.json")){
+                gsbpms = gsbpmDataAccess.serializeFromFile(file);
+                LOGGER.info("gsbpm.json serialized");
+            }
+        }
+        LOGGER.info("GET gsbpm resulting in 200");
+        return new ResponseEntity<>(gsbpms, HttpStatus.OK);
+    }
+
+    /**
+     * This method is using to get produit JSON representation from git repo
+     *
+     * @return List of all {@link fr.insee.knowledge.domain.Product}
+     */
+    @ApiOperation(value = "Get Product from git repo")
+    @GetMapping(path = "/products")
+    public ResponseEntity<Object> getProducts() throws IOException, GitAPIException {
+        List<Product> products = null;
+        File localPath = File.createTempFile("GitRepositoryKnowledge", "");
+        Files.delete(localPath.toPath());
+
+        Git git = Git.cloneRepository()
+                .setURI("https://github.com/bwerquin/Knowledge-Data.git")
+                .setDirectory(localPath)
+                .call();
+        NotFileFilter suffixFileFilterFileFilter=new NotFileFilter(new SuffixFileFilter(new String[] { "md", "MD", ".git",".pack","idx"}));
+        Collection<File> files = FileUtils.listFiles(localPath, suffixFileFilterFileFilter, TrueFileFilter.INSTANCE);
+        for(File file2 : files){
+            KnowledgeFile file = new KnowledgeFile();
+            file.setFileName(file2.getName());
+            file.setFolder(file2.isDirectory());
+            file.setPath(file2.getPath());
+            if(file2.getName().toUpperCase(Locale.ROOT).equalsIgnoreCase("produits.json")){
+                products = productDataAccess.serializeFromFile(file);
+                LOGGER.info("produits.json serialized");
+            }
+        }
+        LOGGER.info("GET produit resulting in 200");
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
 

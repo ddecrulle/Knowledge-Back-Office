@@ -1,14 +1,19 @@
 package fr.insee.knowledge.domain;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Product {
 
+    @JsonProperty("nom")
     private String name;
+    @JsonProperty("description")
     private String description;
+    @JsonProperty("mode")
     private String mode;
+    @JsonProperty("utilisation")
     private String usage;
-    private List<Product> relatedProducts;
+    @JsonProperty("produits")
+    private String relatedProducts;
 
     public String getName() {
         return name;
@@ -42,11 +47,11 @@ public class Product {
         this.usage = usage;
     }
 
-    public List<Product> getRelatedProducts() {
+    public String getRelatedProducts() {
         return relatedProducts;
     }
 
-    public void setRelatedProducts(List<Product> relatedProducts) {
+    public void setRelatedProducts(String relatedProducts) {
         this.relatedProducts = relatedProducts;
     }
 }

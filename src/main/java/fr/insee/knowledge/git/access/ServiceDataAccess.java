@@ -1,4 +1,4 @@
-package fr.insee.knowledge.data.access;
+package fr.insee.knowledge.git.access;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;
