@@ -45,6 +45,7 @@ jobs:
   docker:
     needs: build
     runs-on: ubuntu-latest
+    environment: ci
     steps:
       - uses: actions/checkout@v2
       - name: Download build
