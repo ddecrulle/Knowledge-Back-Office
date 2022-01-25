@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: knowledge-bo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: knowledge-bo
+  template:
+    metadata:
+      labels:
+        app: knowledge-bo
+    spec:
+      containers:
+        - name: knowledge
+          image: bwerquin/knowledge-back-office:0.0.4

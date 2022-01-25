@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: knowledge-bo
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  tls:
+    - hosts:
+        - knowledge-bo.dev.insee.io
+  rules:
+    - host: knowledge-bo.dev.insee.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: knowledge-bo
+                port:
+                  number: 80
