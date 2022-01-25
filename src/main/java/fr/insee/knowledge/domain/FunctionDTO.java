@@ -21,6 +21,12 @@ public class FunctionDTO {
     public List<Task> taches;
     @JsonProperty("produit")
     public String products;
+    @JsonProperty("macroservice")
+    public String macroservice;
+    @JsonProperty("service")
+    public String service;
+    @JsonProperty("sousservice")
+    public String sousservice;
 
     public String getLabel() {
         return label;
@@ -77,3 +83,4 @@ public class FunctionDTO {
     public void setProducts(String products) {
         this.products = products;
     }
+}

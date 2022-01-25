@@ -1,9 +1,7 @@
 package fr.insee.knowledge.controller;
 
-import fr.insee.knowledge.domain.Gsbpm;
-import fr.insee.knowledge.domain.KnowledgeFile;
-import fr.insee.knowledge.domain.Product;
-import fr.insee.knowledge.domain.Service;
+import fr.insee.knowledge.domain.*;
+import fr.insee.knowledge.git.access.FunctionDataAccess;
 import fr.insee.knowledge.git.access.GsbpmDataAccess;
 import fr.insee.knowledge.git.access.ProductDataAccess;
 import fr.insee.knowledge.git.access.ServiceDataAccess;
@@ -32,59 +30,24 @@ import java.util.List;
 import java.util.Locale;
 
 @RestController
-@RequestMapping(path = "/git")
-public class KnowledgeObjectAPI {
+@RequestMapping(path = "/model")
+public class KnowledgeObjectsAPI {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(KnowledgeObjectAPI.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(KnowledgeObjectsAPI.class);
 
-    @Autowired
-    ServiceDataAccess serviceDataAccess;
 
     @Autowired
-    GsbpmDataAccess gsbpmDataAccess;
-
-    @Autowired
-    ProductDataAccess productDataAccess;
+    FunctionDataAccess functionDataAccess;
 
     /**
-     * This method is using to get all files from git repo with JSON extensions
-     *
-     * @return List of all {@link KnowledgeFile}
-     */
-    @ApiOperation(value = "Get list of files")
-    @GetMapping(path = "/files")
-    public ResponseEntity<Object> getFiles() throws IOException, GitAPIException {
-        List<KnowledgeFile> resp = new ArrayList<KnowledgeFile>();
-        File localPath = File.createTempFile("GitRepositoryKnowledge", "");
-        Files.delete(localPath.toPath());
-
-        Git git = Git.cloneRepository()
-                .setURI("https://github.com/bwerquin/Knowledge-Data.git")
-                .setDirectory(localPath)
-                .call();
-        NotFileFilter suffixFileFilterFileFilter=new NotFileFilter(new SuffixFileFilter(new String[] { "md", "MD", ".git",".pack","idx" }));
-        Collection<File> files = FileUtils.listFiles(localPath, suffixFileFilterFileFilter, TrueFileFilter.INSTANCE);
-        for(File file2 : files){
-            KnowledgeFile file = new KnowledgeFile();
-            file.setFileName(file2.getName());
-            file.setFolder(file2.isDirectory());
-            file.setPath(file2.getPath());
-            resp.add(file);
-        }
-
-        LOGGER.info("GET files resulting in 200");
-        return new ResponseEntity<>(resp, HttpStatus.OK);
-    }
-
-    /**
-     * This method is using to get services JSON representation from git repo
+     * This method is using to get function JSON representation from MongoDB
      *
      * @return List of all {@link Service}
      */
-    @ApiOperation(value = "Get services from git repo")
-    @GetMapping(path = "/services")
-    public ResponseEntity<Object> getServices() throws IOException, GitAPIException {
-        List<Service> services = null;
+    @ApiOperation(value = "Get functions from mongodb")
+    @GetMapping(path = "/functions")
+    public ResponseEntity<Object> getFunctions() throws IOException, GitAPIException {
+        List<FunctionDTO> functions = null;
         File localPath = File.createTempFile("GitRepositoryKnowledge", "");
         Files.delete(localPath.toPath());
 
@@ -99,78 +62,15 @@ public class KnowledgeObjectAPI {
             file.setFileName(file2.getName());
             file.setFolder(file2.isDirectory());
             file.setPath(file2.getPath());
-            if(file2.getName().toUpperCase(Locale.ROOT).equalsIgnoreCase("services.json")){
-                services = serviceDataAccess.serializeFromFile(file);
-                LOGGER.info("services.json serialized");
+            if(file2.getName().toUpperCase(Locale.ROOT).equalsIgnoreCase("fonctions.json")){
+                functions = functionDataAccess.serializeFromFile(file);
+                LOGGER.info("fonction.json serialized");
             }
         }
         LOGGER.info("GET services resulting in 200");
-        return new ResponseEntity<>(services, HttpStatus.OK);
+        return new ResponseEntity<>(functions, HttpStatus.OK);
     }
 
-    /**
-     * This method is using to get GSBPM JSON representation from git repo
-     *
-     * @return List of all {@link Gsbpm}
-     */
-    @ApiOperation(value = "Get GSBPM Phases from git repo")
-    @GetMapping(path = "/gsbpm")
-    public ResponseEntity<Object> getGSBPM() throws IOException, GitAPIException {
-        List<Gsbpm> gsbpms = null;
-        File localPath = File.createTempFile("GitRepositoryKnowledge", "");
-        Files.delete(localPath.toPath());
-
-        Git git = Git.cloneRepository()
-                .setURI("https://github.com/bwerquin/Knowledge-Data.git")
-                .setDirectory(localPath)
-                .call();
-        NotFileFilter suffixFileFilterFileFilter=new NotFileFilter(new SuffixFileFilter(new String[] { "md", "MD", ".git",".pack","idx"}));
-        Collection<File> files = FileUtils.listFiles(localPath, suffixFileFilterFileFilter, TrueFileFilter.INSTANCE);
-        for(File file2 : files){
-            KnowledgeFile file = new KnowledgeFile();
-            file.setFileName(file2.getName());
-            file.setFolder(file2.isDirectory());
-            file.setPath(file2.getPath());
-            if(file2.getName().toUpperCase(Locale.ROOT).equalsIgnoreCase("gsbpm.json")){
-                gsbpms = gsbpmDataAccess.serializeFromFile(file);
-                LOGGER.info("gsbpm.json serialized");
-            }
-        }
-        LOGGER.info("GET gsbpm resulting in 200");
-        return new ResponseEntity<>(gsbpms, HttpStatus.OK);
-    }
-
-    /**
-     * This method is using to get produit JSON representation from git repo
-     *
-     * @return List of all {@link Product}
-     */
-    @ApiOperation(value = "Get Product from git repo")
-    @GetMapping(path = "/products")
-    public ResponseEntity<Object> getProducts() throws IOException, GitAPIException {
-        List<Product> products = null;
-        File localPath = File.createTempFile("GitRepositoryKnowledge", "");
-        Files.delete(localPath.toPath());
-
-        Git git = Git.cloneRepository()
-                .setURI("https://github.com/bwerquin/Knowledge-Data.git")
-                .setDirectory(localPath)
-                .call();
-        NotFileFilter suffixFileFilterFileFilter=new NotFileFilter(new SuffixFileFilter(new String[] { "md", "MD", ".git",".pack","idx"}));
-        Collection<File> files = FileUtils.listFiles(localPath, suffixFileFilterFileFilter, TrueFileFilter.INSTANCE);
-        for(File file2 : files){
-            KnowledgeFile file = new KnowledgeFile();
-            file.setFileName(file2.getName());
-            file.setFolder(file2.isDirectory());
-            file.setPath(file2.getPath());
-            if(file2.getName().toUpperCase(Locale.ROOT).equalsIgnoreCase("produits.json")){
-                products = productDataAccess.serializeFromFile(file);
-                LOGGER.info("produits.json serialized");
-            }
-        }
-        LOGGER.info("GET produit resulting in 200");
-        return new ResponseEntity<>(products, HttpStatus.OK);
-    }
 
 
 }
