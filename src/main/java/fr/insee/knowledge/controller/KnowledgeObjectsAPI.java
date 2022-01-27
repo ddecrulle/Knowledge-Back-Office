@@ -64,7 +64,7 @@ public class KnowledgeObjectsAPI {
             file.setPath(file2.getPath());
             if(file2.getName().toUpperCase(Locale.ROOT).equalsIgnoreCase("fonctions.json")){
                 functions = functionDataAccess.serializeFromFile(file);
-                LOGGER.info("fonction.json serialized");
+                LOGGER.info("fonctions.json serialized");
             }
         }
         LOGGER.info("GET services resulting in 200");

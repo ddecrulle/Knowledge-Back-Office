@@ -1,4 +1,5 @@
-FROM tomcat:9-jdk11-openjdk-slim
+FROM openjdk:11
 
-RUN rm -rf $CATALINA_HOME/webapps/*
-ADD /target/*.war $CATALINA_HOME/webapps/ROOT.war
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]

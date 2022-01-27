@@ -13,5 +13,5 @@ spec:
         app: knowledge-bo
     spec:
       containers:
-        - name: knowledge
-          image: bwerquin/knowledge-back-office:0.0.4
+        - name: knowledge-bo
+          image: bwerquin/knowledge-back-office:0.0.5
