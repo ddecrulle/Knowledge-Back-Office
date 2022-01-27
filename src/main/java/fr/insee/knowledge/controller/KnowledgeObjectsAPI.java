@@ -39,10 +39,13 @@ public class KnowledgeObjectsAPI {
     @Autowired
     FunctionDataAccess functionDataAccess;
 
+    @Autowired
+    ProductDataAccess productDataAccess;
+
     /**
      * This method is using to get function JSON representation from MongoDB
      *
-     * @return List of all {@link Service}
+     * @return List of all {@link FunctionDTO}
      */
     @ApiOperation(value = "Get functions from mongodb")
     @GetMapping(path = "/functions")
@@ -67,8 +70,40 @@ public class KnowledgeObjectsAPI {
                 LOGGER.info("fonctions.json serialized");
             }
         }
-        LOGGER.info("GET services resulting in 200");
+        LOGGER.info("GET functions resulting in 200");
         return new ResponseEntity<>(functions, HttpStatus.OK);
+    }
+
+    /**
+     * This method is using to get product JSON representation from MongoDB
+     *
+     * @return List of all {@link Product}
+     */
+    @ApiOperation(value = "Get product from mongodb")
+    @GetMapping(path = "/products")
+    public ResponseEntity<Object> getProducts() throws IOException, GitAPIException {
+        List<Product> products = null;
+        File localPath = File.createTempFile("GitRepositoryKnowledge", "");
+        Files.delete(localPath.toPath());
+
+        Git git = Git.cloneRepository()
+                .setURI("https://github.com/bwerquin/Knowledge-Data.git")
+                .setDirectory(localPath)
+                .call();
+        NotFileFilter suffixFileFilterFileFilter=new NotFileFilter(new SuffixFileFilter(new String[] { "md", "MD", ".git",".pack","idx"}));
+        Collection<File> files = FileUtils.listFiles(localPath, suffixFileFilterFileFilter, TrueFileFilter.INSTANCE);
+        for(File file2 : files){
+            KnowledgeFile file = new KnowledgeFile();
+            file.setFileName(file2.getName());
+            file.setFolder(file2.isDirectory());
+            file.setPath(file2.getPath());
+            if(file2.getName().toUpperCase(Locale.ROOT).equalsIgnoreCase("produits.json")){
+                products = productDataAccess.serializeFromFile(file);
+                LOGGER.info("products.json serialized");
+            }
+        }
+        LOGGER.info("GET products resulting in 200");
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
 
