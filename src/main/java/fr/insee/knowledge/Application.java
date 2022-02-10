@@ -2,11 +2,13 @@ package fr.insee.knowledge;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-@SpringBootApplication
-public class Application {
+@SpringBootApplication(scanBasePackages = "fr.insee.knowledge.api")
+public class Application extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication app = new SpringApplication(Application.class);
+		app.run(args);
 	}
 }
