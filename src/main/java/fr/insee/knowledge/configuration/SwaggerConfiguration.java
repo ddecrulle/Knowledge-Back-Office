@@ -15,6 +15,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class SwaggerConfiguration {
         ArrayList<ResponseMessage> messages = Lists.newArrayList(
                 new ResponseMessageBuilder().code(500).message("Erreur interne du côté serveur").build(),
                 new ResponseMessageBuilder().code(403).message("Interdit!").build());
-        docket.select().apis(RequestHandlerSelectors.basePackage("fr.insee.knowledge.api.controller")).build()
+        docket.select().apis(RequestHandlerSelectors.basePackage("fr.insee.knowledge.controller")).build()
                 .apiInfo(apiInfo()).useDefaultResponseMessages(false).globalResponseMessage(RequestMethod.GET, messages)
                 .securitySchemes(List.of()).securityContexts(List.of());
         return docket;
