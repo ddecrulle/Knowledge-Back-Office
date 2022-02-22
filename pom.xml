@@ -6,7 +6,7 @@
 
     <groupId>fr.insee.knowledge</groupId>
     <artifactId>knowledge</artifactId>
-    <version>0.0.7</version>
+    <version>0.0.8</version>
     <packaging>jar</packaging>
     <name>Knowledge-Back-Office</name>
     <description>Back-office services for Knowledge</description>
@@ -118,6 +118,14 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <!-- MongoDB Drivers -->
+
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-sync</artifactId>
+            <version>4.4.2</version>
         </dependency>
 
     </dependencies>
