@@ -43,7 +43,7 @@
             <version>1.6.6</version>
         </dependency>
 
-        <!-- MongoDB Drivers
+        <!-- MongoDB Drivers -->
 
         <dependency>
             <groupId>org.mongodb</groupId>
@@ -52,11 +52,10 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+            <groupId>org.mongodb</groupId>
+            <artifactId>bson</artifactId>
+            <version>4.5.0</version>
         </dependency>
-
-        -->
 
         <!-- Commons -->
         <dependency>
