@@ -7,7 +7,7 @@ import fr.insee.knowledge.domain.Gsbpm;
 import fr.insee.knowledge.domain.KnowledgeFile;
 import fr.insee.knowledge.domain.Product;
 import fr.insee.knowledge.domain.Service;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import org.apache.commons.io.filefilter.NotFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -51,7 +51,7 @@ public class KnowledgeResourcesAPI {
      *
      * @return List of all {@link KnowledgeFile}
      */
-    @ApiOperation(value = "Get list of files")
+    @Operation(summary = "Get list of files")
     @GetMapping(path = "/files")
     public ResponseEntity<Object> getFiles() throws IOException, GitAPIException {
         List<KnowledgeFile> resp = new ArrayList<KnowledgeFile>();
@@ -81,7 +81,7 @@ public class KnowledgeResourcesAPI {
      *
      * @return List of all {@link fr.insee.knowledge.domain.Service}
      */
-    @ApiOperation(value = "Get services from git repo")
+    @Operation(summary="Get services from git repo")
     @GetMapping(path = "/services")
     public ResponseEntity<Object> getServices() throws IOException, GitAPIException {
         List<Service> services = null;
@@ -113,7 +113,7 @@ public class KnowledgeResourcesAPI {
      *
      * @return List of all {@link fr.insee.knowledge.domain.Gsbpm}
      */
-    @ApiOperation(value = "Get GSBPM Phases from git repo")
+    @Operation(summary = "Get GSBPM Phases from git repo")
     @GetMapping(path = "/gsbpm")
     public ResponseEntity<Object> getGSBPM() throws IOException, GitAPIException {
         List<Gsbpm> gsbpms = null;
@@ -145,7 +145,7 @@ public class KnowledgeResourcesAPI {
      *
      * @return List of all {@link fr.insee.knowledge.domain.Product}
      */
-    @ApiOperation(value = "Get Product from git repo")
+    @Operation(summary ="Get Product from git repo" )
     @GetMapping(path = "/products")
     public ResponseEntity<Object> getProducts() throws IOException, GitAPIException {
         List<Product> products = null;
