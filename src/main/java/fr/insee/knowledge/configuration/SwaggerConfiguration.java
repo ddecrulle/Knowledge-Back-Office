@@ -1,48 +1,31 @@
 package fr.insee.knowledge.configuration;
 
-import com.google.common.collect.Lists;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.ResponseMessageBuilder;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.ResponseMessage;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Configuration
-@EnableSwagger2
 public class SwaggerConfiguration {
 
     @Autowired
     BuildProperties buildProperties;
 
     @Bean
-    public Docket productApi() {
-        Docket docket = new Docket(DocumentationType.SWAGGER_2);
-        ArrayList<ResponseMessage> messages = Lists.newArrayList(
-                new ResponseMessageBuilder().code(500).message("Erreur interne du côté serveur").build(),
-                new ResponseMessageBuilder().code(403).message("Interdit!").build());
-        docket.select().apis(RequestHandlerSelectors.withClassAnnotation(RestController.class)).build()
-                .apiInfo(apiInfo()).useDefaultResponseMessages(false).globalResponseMessage(RequestMethod.GET, messages)
-                .securitySchemes(List.of()).securityContexts(List.of());
-        return docket;
-
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .components(new Components())
+                .info(new Info()
+                        .title(buildProperties.getName())
+                        .description("Back-office services for Knowledge")
+                        .version(buildProperties.getVersion())
+                        .license(new License().name("LICENCE MIT").url("https://github.com/ddecrulle/Knowledge-Back-Office/blob/main/LICENSE")));
     }
 
-    private ApiInfo apiInfo() {
-        return new ApiInfo(buildProperties.getName(), "Back-office services for Knowledge", buildProperties.getVersion(),
-                "", new Contact("Metallica", "https://github.com/ddecrulle/Knowledge-Back-Office", ""), "LICENSEE",
-                "https://github.com/ddecrulle/Knowledge-Back-Office/blob/main/LICENSE", List.of());
-    }
+
 }

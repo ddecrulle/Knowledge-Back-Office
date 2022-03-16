@@ -5,7 +5,7 @@ import fr.insee.knowledge.git.access.FunctionDataAccess;
 import fr.insee.knowledge.git.access.GsbpmDataAccess;
 import fr.insee.knowledge.git.access.ProductDataAccess;
 import fr.insee.knowledge.git.access.ServiceDataAccess;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.NotFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
@@ -47,7 +47,7 @@ public class KnowledgeObjectsAPI {
      *
      * @return List of all {@link FunctionDTO}
      */
-    @ApiOperation(value = "Get functions from mongodb")
+    @Operation(summary ="Get functions from mongodb")
     @GetMapping(path = "/functions")
     public ResponseEntity<Object> getFunctions() throws IOException, GitAPIException {
         List<FunctionDTO> functions = null;
@@ -79,7 +79,7 @@ public class KnowledgeObjectsAPI {
      *
      * @return List of all {@link Product}
      */
-    @ApiOperation(value = "Get product from mongodb")
+    @Operation(summary ="Get product from mongodb" )
     @GetMapping(path = "/products")
     public ResponseEntity<Object> getProducts() throws IOException, GitAPIException {
         List<Product> products = null;
