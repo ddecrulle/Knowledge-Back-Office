@@ -11,10 +11,15 @@ public class Gsbpm {
     private String id;
     @JsonProperty("label")
     private String label;
+    @JsonProperty("nodeKey")
+    private String nodeKey;
     @JsonProperty("description")
     private String description;
     @JsonDeserialize(contentAs=Gsbpm.class)
-    private List<Gsbpm> processus;
+    private List<Gsbpm> gsbpm;
+
+    public Gsbpm() {
+    }
 
     public String getId() {
         return id;
@@ -32,6 +37,14 @@ public class Gsbpm {
         this.label = label;
     }
 
+    public String getNodeKey() {
+        return nodeKey;
+    }
+
+    public void setNodeKey(String nodeKey) {
+        this.nodeKey = nodeKey;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -40,11 +53,11 @@ public class Gsbpm {
         this.description = description;
     }
 
-    public List<Gsbpm> getProcessus() {
-        return processus;
+    public List<Gsbpm> getGsbpm() {
+        return gsbpm;
     }
 
-    public void setProcessus(List<Gsbpm> processus) {
-        this.processus = processus;
+    public void setGsbpm(List<Gsbpm> gsbpm) {
+        this.gsbpm = gsbpm;
     }
 }

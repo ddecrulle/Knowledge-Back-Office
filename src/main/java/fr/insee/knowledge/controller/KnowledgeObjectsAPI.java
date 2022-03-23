@@ -2,9 +2,7 @@ package fr.insee.knowledge.controller;
 
 import fr.insee.knowledge.domain.*;
 import fr.insee.knowledge.git.access.FunctionDataAccess;
-import fr.insee.knowledge.git.access.GsbpmDataAccess;
 import fr.insee.knowledge.git.access.ProductDataAccess;
-import fr.insee.knowledge.git.access.ServiceDataAccess;
 import io.swagger.v3.oas.annotations.Operation;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.NotFileFilter;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -77,12 +74,12 @@ public class KnowledgeObjectsAPI {
     /**
      * This method is using to get product JSON representation from MongoDB
      *
-     * @return List of all {@link Product}
+     * @return List of all {@link Products}
      */
     @Operation(summary ="Get product from mongodb" )
     @GetMapping(path = "/products")
     public ResponseEntity<Object> getProducts() throws IOException, GitAPIException {
-        List<Product> products = null;
+        List<Products> products = null;
         File localPath = File.createTempFile("GitRepositoryKnowledge", "");
         Files.delete(localPath.toPath());
 

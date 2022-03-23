@@ -4,12 +4,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Task {
 
+    @JsonProperty("id")
+    public String id;
     @JsonProperty("label")
     public String label;
     @JsonProperty("description")
     public String description;
-    @JsonProperty("statut")
-    public String status;
+    @JsonProperty("statutId")
+    public String statutId;
+    @JsonProperty("statutLabel")
+    public String statutLabel;
+
+    public Task() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getLabel() {
         return label;
@@ -27,11 +42,19 @@ public class Task {
         this.description = description;
     }
 
-    public String getStatus() {
-        return status;
+    public String getStatutId() {
+        return statutId;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatutId(String statutId) {
+        this.statutId = statutId;
+    }
+
+    public String getStatutLabel() {
+        return statutLabel;
+    }
+
+    public void setStatutLabel(String statutLabel) {
+        this.statutLabel = statutLabel;
     }
 }

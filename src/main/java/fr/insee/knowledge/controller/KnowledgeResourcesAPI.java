@@ -5,7 +5,7 @@ import fr.insee.knowledge.git.access.ProductDataAccess;
 import fr.insee.knowledge.git.access.ServiceDataAccess;
 import fr.insee.knowledge.domain.Gsbpm;
 import fr.insee.knowledge.domain.KnowledgeFile;
-import fr.insee.knowledge.domain.Product;
+import fr.insee.knowledge.domain.Products;
 import fr.insee.knowledge.domain.Service;
 import io.swagger.v3.oas.annotations.Operation;
 import org.apache.commons.io.filefilter.NotFileFilter;
@@ -143,12 +143,12 @@ public class KnowledgeResourcesAPI {
     /**
      * This method is using to get produit JSON representation from git repo
      *
-     * @return List of all {@link fr.insee.knowledge.domain.Product}
+     * @return List of all {@link Products}
      */
     @Operation(summary ="Get Product from git repo" )
     @GetMapping(path = "/products")
     public ResponseEntity<Object> getProducts() throws IOException, GitAPIException {
-        List<Product> products = null;
+        List<Products> products = null;
         File localPath = File.createTempFile("GitRepositoryKnowledge", "");
         Files.delete(localPath.toPath());
 

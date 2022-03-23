@@ -1,0 +1,39 @@
+{
+  "bsonType": "object",
+  "required": [
+    "id",
+    "label"
+  ],
+  "properties": {
+    "id": {
+      "bsonType": "string"
+    },
+    "label": {
+      "bsonType": "string"
+    },
+    "description": {
+      "bsonType": "string"
+    },
+    "children": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "object",
+        "required": [
+          "id",
+          "label"
+        ],
+        "properties": {
+          "id": {
+            "bsonType": "string"
+          },
+          "label": {
+            "bsonType": "string"
+          },
+          "description": {
+            "bsonType": "string"
+          }
+        }
+      }
+    }
+  }
+}
