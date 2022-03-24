@@ -6,6 +6,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.CreateCollectionOptions;
 import com.mongodb.client.model.ValidationOptions;
 import fr.insee.knowledge.constants.Constants;
+import fr.insee.knowledge.utils.Utils;
 import org.apache.commons.io.IOUtils;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,29 +29,27 @@ public class MongoConfiguration {
 
     @Bean(name = "mongoDatabase")
     public MongoDatabase mongoDatabase() {
-        return mongoClient().getDatabase(database)
+        return mongoClient().getDatabase(database);
     }
 
-    private static String readFileFromResources(String fileName) throws IOException {
-        return IOUtils.resourceToString(fileName, StandardCharsets.UTF_8);
-    }
     private CreateCollectionOptions getValidateOption(String filename) throws IOException {
-        Document doc = Document.parse(readFileFromResources("schema/" + filename ));
+        Document doc = Document.parse(Utils.readFileFromResources("/schema/" + filename));
         ValidationOptions validationOptions = new ValidationOptions();
         validationOptions.validator(doc);
         CreateCollectionOptions collectionOptions = new CreateCollectionOptions();
-        collectionOptions.validationOptions(validationOptions)
+        collectionOptions.validationOptions(validationOptions);
         return collectionOptions;
     }
 
-    @Bean
-    public void createCollection() throws IOException {
-        mongoDatabase().createCollection(Constants.CollectionFunctions,getValidateOption("schemaFunctions.json"));
-        mongoDatabase().createCollection(Constants.CollectionHierarchy,getValidateOption("schemaHierarchy.json"));
+    public void createCollections() throws IOException {
+        mongoDatabase().createCollection(Constants.CollectionFunctions, getValidateOption("schemaFunctions.json"));
+        mongoDatabase().createCollection(Constants.CollectionHierarchy, getValidateOption("schemaHierarchy.json"));
     }
 
-
-
+    @Bean
+    public void createCollectionTest() {
+        mongoDatabase().createCollection("test");
+    }
 
 
 }
