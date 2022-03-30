@@ -6,5 +6,5 @@ import org.springframework.stereotype.Service;
 public interface InitializerService {
 
     void createCollections();
-
+    
 }

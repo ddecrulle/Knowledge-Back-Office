@@ -1,5 +1,6 @@
 package fr.insee.knowledge.service.impl;
 
+import fr.insee.knowledge.constants.Constants;
 import fr.insee.knowledge.repository.FunctionDAO;
 import fr.insee.knowledge.repository.HierarchyDAO;
 import fr.insee.knowledge.service.ImportService;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 //TODO Catch and log all exception
 @Service
@@ -48,5 +50,18 @@ public class ImportServiceImpl implements ImportService {
             return functionDAO.insertOrReplaceOneDocument(document);
         }
         return "An error occured with data structure";
+    }
+
+    public List<String> importAll() throws IOException {
+        List<String> results = new ArrayList<String>();
+        Constants.ListHierarchy.forEach(filename -> {
+            try {
+                results.add(filename + importHierarchy(filename));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        results.add(Constants.GithubFunctionFile + " " + importListFunctions(Constants.GithubFunctionFile));
+        return results;
     }
 }

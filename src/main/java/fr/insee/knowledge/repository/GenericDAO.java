@@ -69,4 +69,6 @@ public class GenericDAO {
             return ("A Mongo BulkWriteException occured with the following error : " + exception);
         }
     }
+
+
 }
