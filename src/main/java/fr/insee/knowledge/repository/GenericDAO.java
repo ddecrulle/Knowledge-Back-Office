@@ -8,39 +8,40 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.ReplaceOneModel;
 import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.WriteModel;
-
-import static com.mongodb.client.model.Filters.eq;
 import fr.insee.knowledge.constants.Constants;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class MongoDao {
+import static com.mongodb.client.model.Filters.eq;
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(MongoDao.class);
+public class GenericDAO {
+    private final static Logger LOGGER = LoggerFactory.getLogger(GenericDAO.class);
 
     @Autowired
     private MongoDatabase mongoDatabase;
 
-    private MongoCollection<Document> functionCollection;
-    private MongoCollection<Document> hierarchyCollection;
+    private String CollectionName;
+
+    public GenericDAO(String CollectionName) {
+        this.CollectionName = CollectionName;
+    }
+
+    private static MongoCollection<Document> mongoCollection;
+
 
     @PostConstruct
     public void init() {
-        functionCollection = mongoDatabase.getCollection(Constants.CollectionFunctions);
-        hierarchyCollection = mongoDatabase.getCollection(Constants.CollectionHierarchy);
+        mongoCollection = mongoDatabase.getCollection(CollectionName);
     }
 
-    private String InsertOrReplaceOneDocument(MongoCollection<Document> mongoCollection, Document document) {
+    public static String insertOrReplaceOneDocument(Document document) {
         try {
-            LOGGER.info(document.getString("id"));
             mongoCollection.replaceOne(eq("id", document.getString("id")), document, new ReplaceOptions().upsert(true));
             return ("Success! The document is imported in the database");
         } catch (MongoException exception) {
@@ -49,11 +50,11 @@ public class MongoDao {
         }
     }
 
-    private String insertOrReplaceManyDocuments(MongoCollection<Document> mongoCollection, List<Document> documents) {
+    public String insertOrReplaceManyDocuments(List<Document> documents) {
         try {
             List<WriteModel<Document>> bulkOperations = new ArrayList<>();
             documents.forEach(
-                    document -> bulkOperations.add(new ReplaceOneModel(
+                    document -> bulkOperations.add(new ReplaceOneModel<>(
                             eq("id", document.getString("id")),
                             document,
                             new ReplaceOptions().upsert(true)))
@@ -68,21 +69,4 @@ public class MongoDao {
             return ("A Mongo BulkWriteException occured with the following error : " + exception);
         }
     }
-
-    public String insertFunction(Document function) {
-        LOGGER.info("Insert Function");
-        return InsertOrReplaceOneDocument(functionCollection, function);
-    }
-
-    public String insertListFunctions(List<Document> functions) {
-        LOGGER.info("Insert ListOfFunctions");
-        return insertOrReplaceManyDocuments(functionCollection, functions);
-    }
-
-    public String insertHierarchy(Document hierarchy) {
-        LOGGER.info("Insert Hierarchy");
-        return InsertOrReplaceOneDocument(hierarchyCollection, hierarchy);
-    }
-
-
 }

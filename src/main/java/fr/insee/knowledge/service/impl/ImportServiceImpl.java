@@ -1,6 +1,7 @@
 package fr.insee.knowledge.service.impl;
 
-import fr.insee.knowledge.repository.MongoDao;
+import fr.insee.knowledge.repository.FunctionDAO;
+import fr.insee.knowledge.repository.HierarchyDAO;
 import fr.insee.knowledge.service.ImportService;
 import fr.insee.knowledge.utils.Utils;
 import org.bson.Document;
@@ -21,7 +22,10 @@ public class ImportServiceImpl implements ImportService {
     private final static Logger LOGGER = LoggerFactory.getLogger(ImportServiceImpl.class);
 
     @Autowired
-    private MongoDao mongoDao;
+    private FunctionDAO functionDAO;
+
+    @Autowired
+    private HierarchyDAO hierarchyDAO;
 
     @Value("${fr.insee.knowledge.git.access.rawrepository}")
     private String githubRepository;
@@ -29,7 +33,7 @@ public class ImportServiceImpl implements ImportService {
     public String importHierarchy(String filename) throws IOException {
         String strHierarchy = Utils.readFileFromUrl(new URL(githubRepository + filename));
         Document document = Document.parse(strHierarchy);
-        return mongoDao.insertHierarchy(document);
+        return HierarchyDAO.insertOrReplaceOneDocument(document);
     }
 
     public String importListFunctions(String filename) throws IOException {
@@ -37,11 +41,11 @@ public class ImportServiceImpl implements ImportService {
         Object object = Document.parse("{\"json\":" + strFunctions + "}").get("json");
         if (object instanceof ArrayList) {
             ArrayList<Document> documents = (ArrayList<Document>) object;
-            return mongoDao.insertListFunctions(documents);
+            return functionDAO.insertOrReplaceManyDocuments(documents);
         }
         if (object instanceof Document) {
             Document document = (Document) object;
-            return mongoDao.insertFunction(document);
+            return functionDAO.insertOrReplaceOneDocument(document);
         }
         return "An error occured with data structure";
     }
