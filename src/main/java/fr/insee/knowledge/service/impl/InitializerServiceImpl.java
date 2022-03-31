@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class InitializerServiceImpl implements InitializerService {
@@ -46,6 +47,17 @@ public class InitializerServiceImpl implements InitializerService {
             LOGGER.info("Collections created");
         } catch (MongoCommandException | IOException e) {
             LOGGER.info("Collections already exists");
+        }
+    }
+
+    public void importDataFromGithub() throws IOException {
+        LOGGER.info("Import Data from Github");
+        try {
+            List<String> result = importService.importAll();
+            LOGGER.info(String.valueOf(result));
+        } catch (Exception e) {
+            LOGGER.error("Error could not import data from github. Execption occured " + e);
+
         }
     }
 }

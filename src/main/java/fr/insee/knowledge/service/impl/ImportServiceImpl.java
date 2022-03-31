@@ -56,7 +56,7 @@ public class ImportServiceImpl implements ImportService {
         List<String> results = new ArrayList<String>();
         Constants.ListHierarchy.forEach(filename -> {
             try {
-                results.add(filename + importHierarchy(filename));
+                results.add(filename + " " + importHierarchy(filename));
             } catch (IOException e) {
                 e.printStackTrace();
             }

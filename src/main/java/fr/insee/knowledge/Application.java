@@ -10,6 +10,8 @@ import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorContro
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
+import java.io.IOException;
+
 
 @SpringBootApplication(scanBasePackages = "fr.insee.knowledge", exclude = MongoAutoConfiguration.class)
 public class Application {
@@ -26,7 +28,9 @@ public class Application {
     }
 
     @EventListener(ApplicationReadyEvent.class)
-    public void doSomethingAfterStartup() {
+    public void doSomethingAfterStartup() throws IOException {
         initializer.createCollections();
+        initializer.importDataFromGithub();
+
     }
 }
