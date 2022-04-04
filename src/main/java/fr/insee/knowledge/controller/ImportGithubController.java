@@ -72,8 +72,8 @@ public class ImportGithubController {
 
     @Operation(summary = "Import All")
     @GetMapping(path = "/import.All")
-    public ResponseEntity<List<String>> importAll() throws IOException {
+    public ResponseEntity<String> importAll() throws IOException {
         List<String> results = importService.importAll();
-        return new ResponseEntity<List<String>>(results, HttpStatus.OK);
+        return new ResponseEntity<String>(results.toString(), HttpStatus.OK);
     }
 }

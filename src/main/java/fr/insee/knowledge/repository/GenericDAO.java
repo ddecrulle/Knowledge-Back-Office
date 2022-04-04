@@ -6,6 +6,7 @@ import com.mongodb.bulk.BulkWriteResult;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Projections;
 import com.mongodb.client.model.ReplaceOneModel;
 import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.WriteModel;
@@ -28,25 +29,23 @@ public class GenericDAO {
     @Autowired
     private MongoDatabase mongoDatabase;
 
-    private String CollectionName;
-    private static MongoCollection<Document> mongoCollection;
+    private String collectionName;
+    private MongoCollection<Document> mongoCollection;
 
-    public GenericDAO(String CollectionName) {
-        this.CollectionName = CollectionName;
-        LOGGER.info("constructor generic");
-        // mongoCollection = mongoDatabase.getCollection(CollectionName);
+    public GenericDAO(String collectionName) {
+        this.collectionName = collectionName;
     }
 
 
     @PostConstruct
     public void init() {
-        mongoCollection = mongoDatabase.getCollection(CollectionName);
+        mongoCollection = mongoDatabase.getCollection(collectionName);
     }
 
-    public static String insertOrReplaceOneDocument(Document document) {
+    public String insertOrReplaceOneDocument(Document document) {
         try {
             mongoCollection.replaceOne(eq("id", document.getString("id")), document, new ReplaceOptions().upsert(true));
-            return ("Success! The document is imported in the database");
+            return ("Success! The document is imported in the database \n");
         } catch (MongoException exception) {
             return ("Error ! Unable to insert document : " + document.getString("id") + " to an error: " + exception);
 
@@ -82,9 +81,8 @@ public class GenericDAO {
     }
 
     public List<Document> getAllDocument() {
-        LOGGER.info(this.CollectionName);
         List<Document> results = new ArrayList<>();
-        FindIterable<Document> iterable = mongoCollection.find();
+        FindIterable<Document> iterable = mongoCollection.find().projection(Projections.excludeId());
         iterable.into(results);
         return results;
     }

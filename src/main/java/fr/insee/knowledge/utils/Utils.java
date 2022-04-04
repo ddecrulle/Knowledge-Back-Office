@@ -18,7 +18,6 @@ public class Utils {
 
     public static String readFileFromUrl(URL url) throws IOException {
         try {
-            LOGGER.info("IOUtils.toString");
             return IOUtils.toString(url, StandardCharsets.UTF_8);
         } catch (Exception e) {
             LOGGER.error("An error occured when try to fetch data on url : {}", url);

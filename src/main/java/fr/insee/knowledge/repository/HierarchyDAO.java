@@ -18,7 +18,6 @@ public class HierarchyDAO extends GenericDAO {
 
     public HierarchyDAO() {
         super(Constants.CollectionHierarchy);
-        LOGGER.info("contructor hierarchy");
     }
 
     public String insertHierarchy(Document hierarchy) {
