@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/Import")
+@RequestMapping(path = "/import")
 public class ImportGithubController {
 
     @Value("${fr.insee.knowledge.git.access.rawrepository}")
@@ -73,8 +72,8 @@ public class ImportGithubController {
 
     @Operation(summary = "Import All")
     @GetMapping(path = "/import.All")
-    public ResponseEntity<List<String>> importAll() throws IOException {
+    public ResponseEntity<String> importAll() throws IOException {
         List<String> results = importService.importAll();
-        return new ResponseEntity<List<String>>(results, HttpStatus.OK);
+        return new ResponseEntity<String>(results.toString(), HttpStatus.OK);
     }
 }

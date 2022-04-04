@@ -57,7 +57,6 @@ public class InitializerServiceImpl implements InitializerService {
             LOGGER.info(String.valueOf(result));
         } catch (Exception e) {
             LOGGER.error("Error could not import data from github. Execption occured " + e);
-
         }
     }
 }

@@ -1,6 +1,6 @@
 package fr.insee.knowledge.controller;
 
-import fr.insee.knowledge.service.HierarchyService;
+import fr.insee.knowledge.service.FunctionService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.bson.Document;
 import org.slf4j.Logger;
@@ -16,26 +16,25 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/hierarchy")
-public class HierarchyController {
+@RequestMapping(path = "/function")
+public class FunctionController {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(HierarchyController.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(FunctionController.class);
 
     @Autowired
-    private HierarchyService hierarchyService;
+    private FunctionService functionService;
 
-
-    @Operation(summary = "Get Hierarchy by id")
+    @Operation(summary = "Get function by id")
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Document> getHierarchyById(@PathVariable(value = "id") String id) {
-        Document result = hierarchyService.getHierarchyById(id);
+    public ResponseEntity<Document> getFunctionById(@PathVariable(value = "id") String id) {
+        Document result = functionService.getFunctionById(id);
         return new ResponseEntity<Document>(result, HttpStatus.OK);
     }
 
-    @Operation(summary = "Get all hierarchies")
+    @Operation(summary = "Get all functions")
     @GetMapping(path = "/all")
-    public ResponseEntity<List<Document>> getAllHierarchies() {
-        List<Document> result = hierarchyService.getAllHierarchies();
+    public ResponseEntity<List<Document>> getAllFunctions() {
+        List<Document> result = functionService.getAllFunctions();
         return new ResponseEntity<List<Document>>(result, HttpStatus.OK);
     }
 }
