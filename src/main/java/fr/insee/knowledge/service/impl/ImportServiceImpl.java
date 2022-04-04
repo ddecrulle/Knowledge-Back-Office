@@ -35,7 +35,7 @@ public class ImportServiceImpl implements ImportService {
     public String importHierarchy(String filename) throws IOException {
         String strHierarchy = Utils.readFileFromUrl(new URL(githubRepository + filename));
         Document document = Document.parse(strHierarchy);
-        return HierarchyDAO.insertOrReplaceOneDocument(document);
+        return hierarchyDAO.insertOrReplaceOneDocument(document);
     }
 
     public String importListFunctions(String filename) throws IOException {

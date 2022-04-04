@@ -3,12 +3,15 @@ package fr.insee.knowledge.repository;
 import com.mongodb.MongoBulkWriteException;
 import com.mongodb.MongoException;
 import com.mongodb.bulk.BulkWriteResult;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.ReplaceOneModel;
 import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.WriteModel;
-import fr.insee.knowledge.constants.Constants;
+
+import static com.mongodb.client.model.Filters.eq;
+
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +21,6 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mongodb.client.model.Filters.eq;
 
 public class GenericDAO {
     private final static Logger LOGGER = LoggerFactory.getLogger(GenericDAO.class);
@@ -27,12 +29,13 @@ public class GenericDAO {
     private MongoDatabase mongoDatabase;
 
     private String CollectionName;
+    private static MongoCollection<Document> mongoCollection;
 
     public GenericDAO(String CollectionName) {
         this.CollectionName = CollectionName;
+        LOGGER.info("constructor generic");
+        // mongoCollection = mongoDatabase.getCollection(CollectionName);
     }
-
-    private static MongoCollection<Document> mongoCollection;
 
 
     @PostConstruct
@@ -60,14 +63,30 @@ public class GenericDAO {
                             new ReplaceOptions().upsert(true)))
             );
             BulkWriteResult result = mongoCollection.bulkWrite(bulkOperations);
-            LOGGER.info(String.valueOf(result));
-            return ("Success ! There was " + "\ninserted function: " + (result.getInsertedCount() + result.getUpserts().size()) +
-                    "\nupdated function: " + result.getModifiedCount() +
-                    "\ndeleted function: " + result.getDeletedCount());
+            return ("Success ! There was " + "\n inserted function : " + (result.getInsertedCount() + result.getUpserts().size()) +
+                    "\nupdated function : " + result.getModifiedCount() +
+                    "\ndeleted function : " + result.getDeletedCount());
         } catch (MongoBulkWriteException exception) {
             LOGGER.error(String.valueOf(exception));
             return ("A Mongo BulkWriteException occured with the following error : " + exception);
         }
+    }
+
+    public FindIterable<Document> findByKeyValue(String key, String value) {
+        FindIterable<Document> iterable = mongoCollection.find(eq(key, value));
+        return iterable;
+    }
+
+    public Document FindByIndex(String index, String value) {
+        return findByKeyValue(index, value).first();
+    }
+
+    public List<Document> getAllDocument() {
+        LOGGER.info(this.CollectionName);
+        List<Document> results = new ArrayList<>();
+        FindIterable<Document> iterable = mongoCollection.find();
+        iterable.into(results);
+        return results;
     }
 
 

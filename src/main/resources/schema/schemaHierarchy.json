@@ -3,16 +3,14 @@
     "bsonType": "object",
     "required": [
       "id",
-      "label"
+      "label",
+      "children"
     ],
     "properties": {
       "id": {
         "bsonType": "string"
       },
       "label": {
-        "bsonType": "string"
-      },
-      "description": {
         "bsonType": "string"
       },
       "children": {

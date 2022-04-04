@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/Import")
+@RequestMapping(path = "/import")
 public class ImportGithubController {
 
     @Value("${fr.insee.knowledge.git.access.rawrepository}")
