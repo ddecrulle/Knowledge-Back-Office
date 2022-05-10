@@ -11,14 +11,15 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MongoConfiguration {
+
     @Value("${mongodb.database}")
-    private static String database;
+    private String database;
     @Value("${mongodb.username}")
-    private static String username;
+    private String username;
     @Value("${mongodb.password}")
-    private static String password;
+    private String password;
     @Value("${mongodb.host}")
-    private static String host;
+    private String host;
 
     private final String mongoUri = String.format("mongodb://%s:%s@%s:27017/%s?authSource=%s", username, password, host, database, database);
 
