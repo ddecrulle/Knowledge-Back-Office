@@ -6,7 +6,7 @@
 
     <groupId>fr.insee.knowledge</groupId>
     <artifactId>knowledge</artifactId>
-    <version>0.1.3</version>
+    <version>0.1.4</version>
     <packaging>jar</packaging>
     <name>Knowledge-Back-Office</name>
     <description>Back-office services for Knowledge</description>
