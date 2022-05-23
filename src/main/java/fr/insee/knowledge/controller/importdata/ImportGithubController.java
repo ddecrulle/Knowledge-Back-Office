@@ -1,8 +1,9 @@
-package fr.insee.knowledge.controller;
+package fr.insee.knowledge.controller.importdata;
 
 import fr.insee.knowledge.constants.Constants;
 import fr.insee.knowledge.service.ImportService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.List;
 
+@Tag(name = "Import Data", description = "Import Data from Github")
 @RestController
 @RequestMapping(path = "/import")
 public class ImportGithubController {
@@ -26,7 +28,7 @@ public class ImportGithubController {
     @Autowired
     private ImportService importService;
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ImportGithubController.class);
+    private final static Logger logger = LoggerFactory.getLogger(ImportGithubController.class);
 
     @Operation(summary = "Import Functions")
     @GetMapping(path = "/functions")

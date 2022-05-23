@@ -1,6 +1,6 @@
 package fr.insee.knowledge.service.impl;
 
-import fr.insee.knowledge.repository.HierarchyDAO;
+import fr.insee.knowledge.dao.HierarchyDAO;
 import fr.insee.knowledge.service.HierarchyService;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;

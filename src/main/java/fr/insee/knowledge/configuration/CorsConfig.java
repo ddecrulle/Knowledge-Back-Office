@@ -10,10 +10,7 @@ import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 public class CorsConfig {
-    /**
-     * The url to allowed
-     * Generate with the application property application.cros_origin
-     */
+
     @Value("${fr.insee.knowledge.application.crosOrigin}")
     private String crosOrigin;
 

@@ -1,6 +1,5 @@
-package fr.insee.knowledge.repository;
+package fr.insee.knowledge.dao;
 
-import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import fr.insee.knowledge.constants.Constants;
 import org.bson.Document;

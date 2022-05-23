@@ -1,7 +1,8 @@
-package fr.insee.knowledge.controller;
+package fr.insee.knowledge.controller.hierarchy;
 
 import fr.insee.knowledge.service.HierarchyService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Tag(name = "Hierarchy", description = "")
 @RestController
 @RequestMapping(path = "/hierarchy")
 public class HierarchyController {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(HierarchyController.class);
+    private final static Logger logger = LoggerFactory.getLogger(HierarchyController.class);
 
     @Autowired
     private HierarchyService hierarchyService;

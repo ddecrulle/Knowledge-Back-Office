@@ -1,4 +1,4 @@
-package fr.insee.knowledge.repository;
+package fr.insee.knowledge.dao;
 
 import com.mongodb.MongoBulkWriteException;
 import com.mongodb.MongoException;

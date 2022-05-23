@@ -1,8 +1,8 @@
 package fr.insee.knowledge.service.impl;
 
 import fr.insee.knowledge.constants.Constants;
-import fr.insee.knowledge.repository.FunctionDAO;
-import fr.insee.knowledge.repository.HierarchyDAO;
+import fr.insee.knowledge.dao.FunctionDAO;
+import fr.insee.knowledge.dao.HierarchyDAO;
 import fr.insee.knowledge.service.ImportService;
 import fr.insee.knowledge.utils.Utils;
 import org.bson.Document;
@@ -21,7 +21,7 @@ import java.util.List;
 @Service
 public class ImportServiceImpl implements ImportService {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ImportServiceImpl.class);
+    private final static Logger logger = LoggerFactory.getLogger(ImportServiceImpl.class);
 
     @Autowired
     private FunctionDAO functionDAO;
