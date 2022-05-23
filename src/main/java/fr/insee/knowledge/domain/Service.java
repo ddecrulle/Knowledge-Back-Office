@@ -11,6 +11,8 @@ public class Service extends GenericIDLabel {
         this.description = description;
     }
 
+    public Service() {}
+
     public Service getService() {
         return service;
     }
@@ -26,4 +28,5 @@ public class Service extends GenericIDLabel {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }
