@@ -1,6 +1,10 @@
 package fr.insee.knowledge.controller.function;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.knowledge.domain.Function;
+import fr.insee.knowledge.domain.Service;
 import fr.insee.knowledge.service.FunctionService;
 import fr.insee.knowledge.utils.Utils;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -57,9 +62,48 @@ public class FunctionController {
         return new ResponseEntity<Object>(object, HttpStatus.OK);
     }
 
-    private List<Function> listFunctionsFromJson(String jsonContent) {
-        return null;
+    public static List<Function> listFunctionsFromJson(String jsonContent) throws JsonProcessingException {
+        List<Function> res = new ArrayList<>();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode rootNode = mapper.readTree(jsonContent);
+        JsonNode firstServiceNode = rootNode.get(0);
+        Service firstMacroService = new Service();
+        recursiveMapping(res, firstServiceNode, firstMacroService);
+        return res;
     }
+
+    private static void recursiveMapping(List<Function> functionList, JsonNode jsonNode, Service currentService) {
+
+        currentService.setId(jsonNode.get("id").asText());
+        currentService.setLabel(jsonNode.get("label").asText());
+        // ...
+
+        JsonNode functionNodeArray = jsonNode.get("fonction");
+
+        if (functionNodeArray != null) {
+            for (JsonNode functionNode : functionNodeArray) {
+                Function function = new Function();
+                function.setLabel(functionNode.get("label").asText());
+                // ...
+                function.setService(currentService);
+                functionList.add(function);
+            }
+        }
+
+        else {
+            if (jsonNode.get("service") == null) {
+                System.out.println(jsonNode);
+            }
+            for (JsonNode serviceNode : jsonNode.get("service")) {
+                Service service = new Service();
+                service.setService(currentService);
+                recursiveMapping(functionList, serviceNode, service);
+            }
+        }
+
+    }
+
+
 
 
 }
