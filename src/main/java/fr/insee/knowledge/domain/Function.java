@@ -27,6 +27,8 @@ public class Function extends GenericIDLabel {
         this.service = service;
     }
 
+    public Function() {}
+
     public String getName() {
         return name;
     }
