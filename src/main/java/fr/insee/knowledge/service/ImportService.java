@@ -12,7 +12,7 @@ public interface ImportService {
 
     String importListFunctions(String pathName) throws IOException;
 
-    List<String> importAll() throws IOException;
+    List<String> importHierarchyAndFunction() throws IOException;
 
-    
+
 }

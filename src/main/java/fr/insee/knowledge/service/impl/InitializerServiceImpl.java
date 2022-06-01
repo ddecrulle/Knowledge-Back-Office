@@ -51,7 +51,7 @@ public class InitializerServiceImpl implements InitializerService {
     public void importDataFromGithub() throws IOException {
         logger.info("Import Data from Github");
         try {
-            List<String> result = importService.importAll();
+            List<String> result = importService.importHierarchyAndFunction();
             logger.info(String.valueOf(result));
         } catch (Exception e) {
             logger.error("Error could not import data from github. Execption occured " + e);

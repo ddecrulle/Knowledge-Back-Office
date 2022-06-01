@@ -40,8 +40,8 @@ public class FunctionControllerTest {
                 .filter(function -> function.getLabel().equals("Spécifier un modèle de questionnaire"))
                 .findAny().orElse(null);
         assertNotNull(testedFunction);
-        assertEquals("S121", testedFunction.getService().getId());
-        assertEquals("S120", testedFunction.getService().getService().getId());
-        assertEquals("S100", testedFunction.getService().getService().getService().getId());
+        assertEquals("S121", testedFunction.getServiceBpmn().getId());
+        assertEquals("S120", testedFunction.getServiceBpmn().getServiceBpmn().getId());
+        assertEquals("S100", testedFunction.getServiceBpmn().getServiceBpmn().getServiceBpmn().getId());
     }
 }

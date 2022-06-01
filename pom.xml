@@ -40,7 +40,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.6.6</version>
+            <version>1.6.8</version>
         </dependency>
 
         <!-- MongoDB Drivers -->
@@ -48,17 +48,17 @@
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-sync</artifactId>
-            <version>4.5.0</version>
+            <version>4.6.0</version>
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-core</artifactId>
-            <version>4.5.0</version>
+            <version>4.6.0</version>
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>bson</artifactId>
-            <version>4.5.0</version>
+            <version>4.6.0</version>
         </dependency>
 
         <!-- Commons -->
@@ -74,11 +74,11 @@
         </dependency>
 
 
-        <!-- JSON dependencie -->
+        <!-- JSON dependencies -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.13.2</version>
+            <version>2.13.3</version>
         </dependency>
 
     </dependencies>

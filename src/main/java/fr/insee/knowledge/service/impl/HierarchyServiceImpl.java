@@ -21,4 +21,8 @@ public class HierarchyServiceImpl implements HierarchyService {
         return hierarchyDAO.getAllDocument();
     }
 
+    public Boolean isServiceExist(String id) {
+        //TODO: implement
+        return true;
+    }
 }

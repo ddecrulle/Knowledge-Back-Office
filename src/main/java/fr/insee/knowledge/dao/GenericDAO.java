@@ -13,6 +13,7 @@ import com.mongodb.client.model.WriteModel;
 
 import static com.mongodb.client.model.Filters.eq;
 
+import fr.insee.knowledge.domain.Function;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

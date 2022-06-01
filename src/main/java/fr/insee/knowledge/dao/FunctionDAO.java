@@ -9,7 +9,9 @@ import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.WriteModel;
 import fr.insee.knowledge.constants.Constants;
 import fr.insee.knowledge.domain.Function;
-import org.bson.Document;
+import org.bson.codecs.configuration.CodecProvider;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,10 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.mongodb.MongoClientSettings.getDefaultCodecRegistry;
 import static com.mongodb.client.model.Filters.eq;
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 @Component
 public class FunctionDAO extends GenericDAO {
@@ -29,31 +34,38 @@ public class FunctionDAO extends GenericDAO {
     @Autowired
     private MongoDatabase mongoDatabase;
 
-    private MongoCollection<Document> mongoCollection;
+    private MongoCollection<Function> mongoCollection;
+
+    //TODO Move this code to GenericDAO or to a common class
+    private CodecProvider pojoCodecProvider = PojoCodecProvider.builder().automatic(true).build();
+    private CodecRegistry pojoCodecRegistry = fromRegistries(getDefaultCodecRegistry(), fromProviders(pojoCodecProvider));
 
     @PostConstruct
     public void init() {
-        mongoCollection = mongoDatabase.getCollection(Constants.CollectionFunctions);
+        mongoCollection = mongoDatabase.getCollection(Constants.CollectionFunctions, Function.class).withCodecRegistry(pojoCodecRegistry);
     }
 
     public FunctionDAO() {
         super(Constants.CollectionFunctions);
     }
 
-
-//    public String insertOrReplaceManyFunctions(List<Function> functions) {
-//        try {
-//            List<WriteModel<Function>> bulkOperations = new ArrayList<>();
-//            functions.forEach(
-//                    function -> bulkOperations.insert(function)
-//            );
-//            BulkWriteResult result = mongoCollection.bulkWrite(bulkOperations);
-//            return ("Success ! There was " + "\n inserted function : " + (result.getInsertedCount() + result.getUpserts().size()) +
-//                    "\nupdated function : " + result.getModifiedCount() +
-//                    "\ndeleted function : " + result.getDeletedCount());
-//        } catch (MongoBulkWriteException exception) {
-//            LOGGER.error(String.valueOf(exception));
-//            return ("A Mongo BulkWriteException occured with the following error : " + exception);
-//        }
-//    }
+    //TODO Refactor this code and the one in GenericDAO with type inference
+    public String insertOrReplaceManyFunctions(List<Function> functions) {
+        try {
+            List<WriteModel<Function>> bulkOperations = new ArrayList<>();
+            functions.forEach(
+                    function -> bulkOperations.add(new ReplaceOneModel<>(
+                            eq("id", function.getId()),
+                            function,
+                            new ReplaceOptions().upsert(true)))
+            );
+            BulkWriteResult result = mongoCollection.bulkWrite(bulkOperations);
+            return ("Success ! There was " + "\n inserted function : " + (result.getInsertedCount() + result.getUpserts().size()) +
+                    "\nupdated function : " + result.getModifiedCount() +
+                    "\ndeleted function : " + result.getDeletedCount());
+        } catch (MongoBulkWriteException exception) {
+            LOGGER.error(String.valueOf(exception));
+            return ("A Mongo BulkWriteException occured with the following error : " + exception);
+        }
+    }
 }

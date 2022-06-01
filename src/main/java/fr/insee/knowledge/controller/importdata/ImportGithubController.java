@@ -73,9 +73,9 @@ public class ImportGithubController {
     }
 
     @Operation(summary = "Import All")
-    @GetMapping(path = "/import.All")
-    public ResponseEntity<String> importAll() throws IOException {
-        List<String> results = importService.importAll();
+    @GetMapping(path = "/import-hierarchy-and-functions")
+    public ResponseEntity<String> importHierarchyAndFunction() throws IOException {
+        List<String> results = importService.importHierarchyAndFunction();
         return new ResponseEntity<String>(results.toString(), HttpStatus.OK);
     }
 }

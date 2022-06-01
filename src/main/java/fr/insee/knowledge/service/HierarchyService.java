@@ -11,4 +11,6 @@ public interface HierarchyService {
     Document getHierarchyById(String id);
 
     List<Document> getAllHierarchies();
+
+    Boolean isServiceExist(String id);
 }
