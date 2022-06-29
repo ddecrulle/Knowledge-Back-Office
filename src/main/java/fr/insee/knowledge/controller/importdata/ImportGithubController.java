@@ -1,12 +1,12 @@
-package fr.insee.knowledge.controller;
+package fr.insee.knowledge.controller.importdata;
 
 import fr.insee.knowledge.constants.Constants;
-import fr.insee.knowledge.service.ImportService;
+import fr.insee.knowledge.service.facade.ImportServiceFacade;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,17 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.List;
 
+@Tag(name = "Import Data", description = "Import Data from Github")
 @RestController
 @RequestMapping(path = "/import")
 public class ImportGithubController {
-
-    @Value("${fr.insee.knowledge.git.access.rawrepository}")
-    private String githubRepository;
-
     @Autowired
-    private ImportService importService;
+    private ImportServiceFacade importService;
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ImportGithubController.class);
+    private final static Logger logger = LoggerFactory.getLogger(ImportGithubController.class);
 
     @Operation(summary = "Import Functions")
     @GetMapping(path = "/functions")
@@ -71,9 +68,9 @@ public class ImportGithubController {
     }
 
     @Operation(summary = "Import All")
-    @GetMapping(path = "/import.All")
-    public ResponseEntity<String> importAll() throws IOException {
-        List<String> results = importService.importAll();
+    @GetMapping(path = "/import-hierarchy-and-functions")
+    public ResponseEntity<String> importHierarchyAndFunction() throws IOException {
+        List<String> results = importService.importHierarchyAndFunction();
         return new ResponseEntity<String>(results.toString(), HttpStatus.OK);
     }
 }

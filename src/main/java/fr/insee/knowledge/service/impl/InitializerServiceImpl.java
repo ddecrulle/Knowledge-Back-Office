@@ -5,10 +5,8 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.CreateCollectionOptions;
 import com.mongodb.client.model.ValidationOptions;
 import fr.insee.knowledge.constants.Constants;
-import fr.insee.knowledge.repository.FunctionDAO;
-import fr.insee.knowledge.repository.HierarchyDAO;
-import fr.insee.knowledge.service.ImportService;
 import fr.insee.knowledge.service.InitializerService;
+import fr.insee.knowledge.service.facade.ImportServiceFacade;
 import fr.insee.knowledge.utils.Utils;
 import org.bson.Document;
 import org.slf4j.Logger;
@@ -26,9 +24,9 @@ public class InitializerServiceImpl implements InitializerService {
     private MongoDatabase mongoDatabase;
 
     @Autowired
-    private ImportService importService;
+    private ImportServiceFacade importService;
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(InitializerServiceImpl.class);
+    private final static Logger logger = LoggerFactory.getLogger(InitializerServiceImpl.class);
 
     private CreateCollectionOptions getValidateOption(String filename) throws IOException {
         Document doc = Document.parse(Utils.readFileFromResources("/schema/" + filename));
@@ -40,23 +38,23 @@ public class InitializerServiceImpl implements InitializerService {
     }
 
     public void createCollections() {
-        LOGGER.info("Create Collection");
+        logger.info("Create Collection");
         try {
             mongoDatabase.createCollection(Constants.CollectionFunctions, getValidateOption("schemaFunctions.json"));
             mongoDatabase.createCollection(Constants.CollectionHierarchy, getValidateOption("schemaHierarchy.json"));
-            LOGGER.info("Collections created");
+            logger.info("Collections created");
         } catch (MongoCommandException | IOException e) {
-            LOGGER.info("Collections already exists");
+            logger.info("Collections already exists");
         }
     }
 
     public void importDataFromGithub() throws IOException {
-        LOGGER.info("Import Data from Github");
+        logger.info("Import Data from Github");
         try {
-            List<String> result = importService.importAll();
-            LOGGER.info(String.valueOf(result));
+            List<String> result = importService.importHierarchyAndFunction();
+            logger.info(String.valueOf(result));
         } catch (Exception e) {
-            LOGGER.error("Error could not import data from github. Execption occured " + e);
+            logger.error("Error could not import data from github. Execption occured " + e);
         }
     }
 }

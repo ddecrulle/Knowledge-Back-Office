@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 
 public class Utils {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(Utils.class);
+    private final static Logger logger = LoggerFactory.getLogger(Utils.class);
 
     public static String readFileFromResources(String fileName) throws IOException {
         return IOUtils.resourceToString(fileName, StandardCharsets.UTF_8);
@@ -20,7 +20,7 @@ public class Utils {
         try {
             return IOUtils.toString(url, StandardCharsets.UTF_8);
         } catch (Exception e) {
-            LOGGER.error("An error occured when try to fetch data on url : {}", url);
+            logger.error("An error occured when try to fetch data on url : {}", url);
             throw e;
         }
     }

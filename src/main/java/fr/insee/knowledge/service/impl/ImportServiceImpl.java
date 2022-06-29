@@ -1,67 +1,47 @@
 package fr.insee.knowledge.service.impl;
 
 import fr.insee.knowledge.constants.Constants;
-import fr.insee.knowledge.repository.FunctionDAO;
-import fr.insee.knowledge.repository.HierarchyDAO;
+import fr.insee.knowledge.dao.FunctionDAO;
+import fr.insee.knowledge.dao.HierarchyDAO;
+import fr.insee.knowledge.service.ImportFunctionService;
+import fr.insee.knowledge.service.ImportHierarchyService;
 import fr.insee.knowledge.service.ImportService;
-import fr.insee.knowledge.utils.Utils;
-import org.bson.Document;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 //TODO Catch and log all exception
-@Service
+
+
 public class ImportServiceImpl implements ImportService {
+    private final FunctionDAO functionDAO;
+    private final HierarchyDAO hierarchyDAO;
+    private final String githubRepository;
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ImportServiceImpl.class);
+    private final ImportFunctionService importFunctionService;
+    private final ImportHierarchyService importHierarchyService;
 
-    @Autowired
-    private FunctionDAO functionDAO;
 
-    @Autowired
-    private HierarchyDAO hierarchyDAO;
-
-    @Value("${fr.insee.knowledge.git.access.rawrepository}")
-    private String githubRepository;
-
-    public String importHierarchy(String filename) throws IOException {
-        String strHierarchy = Utils.readFileFromUrl(new URL(githubRepository + filename));
-        Document document = Document.parse(strHierarchy);
-        return hierarchyDAO.insertOrReplaceOneDocument(document);
+    public ImportServiceImpl(FunctionDAO functionDAO, HierarchyDAO hierarchyDAO, String githubRepository) {
+        this.functionDAO = functionDAO;
+        this.hierarchyDAO = hierarchyDAO;
+        this.githubRepository = githubRepository;
+        this.importFunctionService = new ImportFunctionServiceImpl(functionDAO, githubRepository);
+        this.importHierarchyService = new ImportHierarchyServiceImpl(hierarchyDAO, githubRepository);
     }
 
-    public String importListFunctions(String filename) throws IOException {
-        String strFunctions = Utils.readFileFromUrl(new URL(githubRepository + filename));
-        Object object = Document.parse("{\"json\":" + strFunctions + "}").get("json");
-        if (object instanceof ArrayList) {
-            ArrayList<Document> documents = (ArrayList<Document>) object;
-            return functionDAO.insertOrReplaceManyDocuments(documents);
-        }
-        if (object instanceof Document) {
-            Document document = (Document) object;
-            return functionDAO.insertOrReplaceOneDocument(document);
-        }
-        return "An error occured with data structure";
-    }
-
-    public List<String> importAll() throws IOException {
+    public List<String> importHierarchyAndFunction() throws IOException {
         List<String> results = new ArrayList<String>();
         Constants.ListHierarchy.forEach(filename -> {
             try {
-                results.add(filename + " " + importHierarchy(filename));
+                results.add(filename + " " + importHierarchyService.importHierarchy(filename));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
-        results.add(Constants.GithubFunctionFile + " " + importListFunctions(Constants.GithubFunctionFile));
+        results.add(Constants.GithubFunctionFile + " " + importFunctionService.importListFunctions(Constants.GithubFunctionFile));
         return results;
     }
+
 }

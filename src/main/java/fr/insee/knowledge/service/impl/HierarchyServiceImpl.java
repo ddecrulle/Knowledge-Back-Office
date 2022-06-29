@@ -1,8 +1,8 @@
 package fr.insee.knowledge.service.impl;
 
-import fr.insee.knowledge.repository.HierarchyDAO;
+import fr.insee.knowledge.dao.HierarchyDAO;
+import fr.insee.knowledge.domain.Hierarchy;
 import fr.insee.knowledge.service.HierarchyService;
-import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +13,16 @@ public class HierarchyServiceImpl implements HierarchyService {
     @Autowired
     private HierarchyDAO hierarchyDAO;
 
-    public Document getHierarchyById(String idValue) {
-        return hierarchyDAO.FindByIndex("id", idValue);
+    public Hierarchy getHierarchyById(String idValue) {
+        return hierarchyDAO.FindById(idValue);
     }
 
-    public List<Document> getAllHierarchies() {
-        return hierarchyDAO.getAllDocument();
+    public List<Hierarchy> getAllHierarchies() {
+        return hierarchyDAO.getAllDocuments();
     }
 
+    public Boolean isServiceExist(String id) {
+        //TODO: implement
+        return true;
+    }
 }

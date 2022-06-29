@@ -2,12 +2,12 @@
   "$jsonSchema": {
     "bsonType": "object",
     "required": [
-      "id",
+      "_id",
       "label",
       "children"
     ],
     "properties": {
-      "id": {
+      "_id": {
         "bsonType": "string"
       },
       "label": {

@@ -1,14 +1,12 @@
 package fr.insee.knowledge.service;
 
-import org.bson.Document;
-import org.springframework.stereotype.Service;
+import fr.insee.knowledge.domain.Function;
 
 import java.util.List;
 
-@Service
 public interface FunctionService {
 
-    Document getFunctionById(String id);
+    Function getFunctionById(String id);
 
-    List<Document> getAllFunctions();
+    List<Function> getAllFunctions();
 }
