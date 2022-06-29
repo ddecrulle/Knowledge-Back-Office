@@ -5,12 +5,16 @@ public class Task extends GenericIDLabel {
     private String description;
     private String labelStatus;
 
-    public Task(String description,String labelStatus,String id,String label) {
-        super(id,label);
+    public Task() {
+    }
+
+    public Task(String description, String labelStatus, String id, String label) {
+        super(id, label);
         this.description = description;
         this.labelStatus = labelStatus;
 
     }
+
 
     public String getLabelStatus() {
         return labelStatus;

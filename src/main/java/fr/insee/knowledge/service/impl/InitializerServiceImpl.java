@@ -5,8 +5,8 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.CreateCollectionOptions;
 import com.mongodb.client.model.ValidationOptions;
 import fr.insee.knowledge.constants.Constants;
-import fr.insee.knowledge.service.ImportService;
 import fr.insee.knowledge.service.InitializerService;
+import fr.insee.knowledge.service.facade.ImportServiceFacade;
 import fr.insee.knowledge.utils.Utils;
 import org.bson.Document;
 import org.slf4j.Logger;
@@ -24,7 +24,7 @@ public class InitializerServiceImpl implements InitializerService {
     private MongoDatabase mongoDatabase;
 
     @Autowired
-    private ImportService importService;
+    private ImportServiceFacade importService;
 
     private final static Logger logger = LoggerFactory.getLogger(InitializerServiceImpl.class);
 

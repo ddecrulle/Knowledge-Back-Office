@@ -1,16 +1,23 @@
 package fr.insee.knowledge.domain;
 
-public class GenericIDLabel
-{
+public class GenericIDLabel {
     private String id;
     private String label;
 
-    public GenericIDLabel() {}
+    public GenericIDLabel() {
+    }
 
-    public GenericIDLabel(String id, String label)
-    {
+    public GenericIDLabel(String id, String label) {
         this.id = id;
         this.label = label;
+    }
+
+    @Override
+    public String toString() {
+        return "GenericIDLabel{" +
+                "id='" + id + '\'' +
+                ", label='" + label + '\'' +
+                '}';
     }
 
     public String getId() {
@@ -24,6 +31,7 @@ public class GenericIDLabel
     public String getLabel() {
         return label;
     }
+
     public void setLabel(String label) {
         this.label = label;
     }

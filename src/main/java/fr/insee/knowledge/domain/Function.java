@@ -1,40 +1,32 @@
 package fr.insee.knowledge.domain;
 
+import java.util.List;
+
 public class Function extends GenericIDLabel {
-
-
-    private String name;
     private String description;
     private int dispo;
-    private GenericIDLabel gsbpm;
-    private GenericIDLabel product;
-    private GenericIDLabel[] users;
-    private GenericIDLabel[] tools;
-    private Task[] tasks;
+    private String idGsbpm;
+    private String idProduct;
+    private List<GenericIDLabel> users;
+    private List<GenericIDLabel> tools;
+    private List<Task> tasks;
 
     private ServiceBpmn serviceBpmn;
 
-    public Function(String id, String label,String name, String description, int dispo, GenericIDLabel gsbpm, GenericIDLabel product, GenericIDLabel[] users, GenericIDLabel[] tools, Task[] tasks, ServiceBpmn serviceBpmn) {
-        super(id,label);
-        this.name = name;
+    public Function(String id, String label, String description, int dispo, String idGsbpm, String idProduct, List<GenericIDLabel> users, List<GenericIDLabel> tools, List<Task> tasks, ServiceBpmn serviceBpmn) {
+        super(id, label);
         this.description = description;
         this.dispo = dispo;
-        this.gsbpm = gsbpm;
-        this.product = product;
+        this.idGsbpm = idGsbpm;
+        this.idProduct = idProduct;
         this.users = users;
         this.tools = tools;
         this.tasks = tasks;
         this.serviceBpmn = serviceBpmn;
     }
 
-    public Function() {}
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public Function() {
+        super();
     }
 
     public String getDescription() {
@@ -53,43 +45,43 @@ public class Function extends GenericIDLabel {
         this.dispo = dispo;
     }
 
-    public GenericIDLabel getGsbpm() {
-        return gsbpm;
+    public String getIdGsbpm() {
+        return idGsbpm;
     }
 
-    public void setGsbpm(GenericIDLabel gsbpm) {
-        this.gsbpm = gsbpm;
+    public void setIdGsbpm(String idGsbpm) {
+        this.idGsbpm = idGsbpm;
     }
 
-    public GenericIDLabel getProduct() {
-        return product;
+    public String getIdProduct() {
+        return idProduct;
     }
 
-    public void setProduct(GenericIDLabel product) {
-        this.product = product;
+    public void setIdProduct(String idProduct) {
+        this.idProduct = idProduct;
     }
 
-    public GenericIDLabel[] getUsers() {
+    public List<GenericIDLabel> getUsers() {
         return users;
     }
 
-    public void setUsers(GenericIDLabel[] users) {
+    public void setUsers(List<GenericIDLabel> users) {
         this.users = users;
     }
 
-    public GenericIDLabel[] getTools() {
+    public List<GenericIDLabel> getTools() {
         return tools;
     }
 
-    public void setTools(GenericIDLabel[] tools) {
+    public void setTools(List<GenericIDLabel> tools) {
         this.tools = tools;
     }
 
-    public Task[] getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(Task[] tasks) {
+    public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
 

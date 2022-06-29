@@ -23,25 +23,25 @@ public class FunctionControllerTest {
         assertNull(nullJsonNode);
     }
 
-    @Test
-    public void testRecursiveMapping() throws IOException {
-        // given
-        String jsonContent = Utils.readFileFromUrl(
-                FunctionControllerTest.class.getClassLoader().getResource("sample.json"));
-        // when
-        List<Function> res = FunctionController.listFunctionsFromJson(jsonContent);
-
-        // then
-        assertNotNull(res);
-        //
-        assertFalse(res.isEmpty());
-        //
-        Function testedFunction = res.stream()
-                .filter(function -> function.getLabel().equals("Spécifier un modèle de questionnaire"))
-                .findAny().orElse(null);
-        assertNotNull(testedFunction);
-        assertEquals("S121", testedFunction.getServiceBpmn().getId());
-        assertEquals("S120", testedFunction.getServiceBpmn().getServiceBpmn().getId());
-        assertEquals("S100", testedFunction.getServiceBpmn().getServiceBpmn().getServiceBpmn().getId());
-    }
+//    @Test
+//    public void testRecursiveMapping() throws IOException {
+//        // given
+//        String jsonContent = Utils.readFileFromUrl(
+//                FunctionControllerTest.class.getClassLoader().getResource("sample.json"));
+//        // when
+//        List<Function> res = FunctionController.listFunctionsFromJson(jsonContent);
+//
+//        // then
+//        assertNotNull(res);
+//        //
+//        assertFalse(res.isEmpty());
+//        //
+//        Function testedFunction = res.stream()
+//                .filter(function -> function.getLabel().equals("Spécifier un modèle de questionnaire"))
+//                .findAny().orElse(null);
+//        assertNotNull(testedFunction);
+//        assertEquals("S121", testedFunction.getServiceBpmn().getId());
+//        assertEquals("S120", testedFunction.getServiceBpmn().getServiceBpmn().getId());
+//        assertEquals("S100", testedFunction.getServiceBpmn().getServiceBpmn().getServiceBpmn().getId());
+//    }
 }

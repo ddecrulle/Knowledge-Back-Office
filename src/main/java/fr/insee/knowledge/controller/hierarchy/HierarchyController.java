@@ -1,9 +1,9 @@
 package fr.insee.knowledge.controller.hierarchy;
 
+import fr.insee.knowledge.domain.Hierarchy;
 import fr.insee.knowledge.service.HierarchyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +26,17 @@ public class HierarchyController {
     @Autowired
     private HierarchyService hierarchyService;
 
-
     @Operation(summary = "Get Hierarchy by id")
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Document> getHierarchyById(@PathVariable(value = "id") String id) {
-        Document result = hierarchyService.getHierarchyById(id);
-        return new ResponseEntity<Document>(result, HttpStatus.OK);
+    public ResponseEntity<Hierarchy> getHierarchyById(@PathVariable(value = "id") String id) {
+        Hierarchy result = hierarchyService.getHierarchyById(id);
+        return new ResponseEntity<Hierarchy>(result, HttpStatus.OK);
     }
 
     @Operation(summary = "Get all hierarchies")
     @GetMapping(path = "/all")
-    public ResponseEntity<List<Document>> getAllHierarchies() {
-        List<Document> result = hierarchyService.getAllHierarchies();
-        return new ResponseEntity<List<Document>>(result, HttpStatus.OK);
+    public ResponseEntity<List<Hierarchy>> getAllHierarchies() {
+        List<Hierarchy> result = hierarchyService.getAllHierarchies();
+        return new ResponseEntity<List<Hierarchy>>(result, HttpStatus.OK);
     }
 }

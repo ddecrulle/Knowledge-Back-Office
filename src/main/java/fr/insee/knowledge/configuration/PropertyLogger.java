@@ -1,8 +1,5 @@
 package fr.insee.knowledge.configuration;
 
-import java.util.Arrays;
-import java.util.stream.StreamSupport;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +9,9 @@ import org.springframework.core.env.AbstractEnvironment;
 import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.MutablePropertySources;
+
+import java.util.Arrays;
+import java.util.stream.StreamSupport;
 
 @Configuration
 public class PropertyLogger {
