@@ -3,6 +3,8 @@ package fr.insee.knowledge.service.impl;
 import com.mongodb.MongoCommandException;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.CreateCollectionOptions;
+import com.mongodb.client.model.ValidationAction;
+import com.mongodb.client.model.ValidationLevel;
 import com.mongodb.client.model.ValidationOptions;
 import fr.insee.knowledge.constants.Constants;
 import fr.insee.knowledge.service.InitializerService;
@@ -31,7 +33,7 @@ public class InitializerServiceImpl implements InitializerService {
     private CreateCollectionOptions getValidateOption(String filename) throws IOException {
         Document doc = Document.parse(Utils.readFileFromResources("/schema/" + filename));
         ValidationOptions validationOptions = new ValidationOptions();
-        validationOptions.validator(doc);
+        validationOptions.validator(doc).validationLevel(ValidationLevel.STRICT).validationAction(ValidationAction.ERROR);
         CreateCollectionOptions collectionOptions = new CreateCollectionOptions();
         collectionOptions.validationOptions(validationOptions);
         return collectionOptions;

@@ -27,8 +27,6 @@ public class ImportServiceFacade implements ImportHierarchyService, ImportFuncti
     @Value("${fr.insee.knowledge.git.access.rawrepository}")
     private String githubRepository;
 
-    private ImportServiceImpl importService;
-
     @Override
     public String importHierarchy(String pathName) throws IOException {
         ImportHierarchyService importHierarchyService = new ImportHierarchyServiceImpl(hierarchyDAO, githubRepository);

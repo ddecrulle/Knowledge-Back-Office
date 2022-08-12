@@ -2,6 +2,16 @@
   "$jsonSchema": {
     "bsonType": "object",
     "required": [
+      "_id",
+      "label",
+      "description",
+      "dispo",
+      "idGsbpm",
+      "idProduct",
+      "users",
+      "tools",
+      "tasks",
+      "serviceBpmn"
     ],
     "properties": {
       "_id": {
@@ -14,25 +24,93 @@
         "bsonType": "string"
       },
       "dispo": {
-        "bsonType": "long"
+        "bsonType": "int"
       },
-      "gsbpm": {
+      "idGsbpm": {
         "bsonType": "string"
       },
-      "product": {
+      "idProduct": {
         "bsonType": "string"
       },
       "users": {
-        "bsonType": "string"
+        "bsonType": "array",
+        "items": {
+          "bsonType": "object",
+          "required": [
+            "_id",
+            "label"
+          ],
+          "properties": {
+            "_id": {
+              "bsonType": "string"
+            },
+            "label": {
+              "bsonType": "string"
+            }
+          }
+        }
       },
       "tools": {
-        "bsonType": "string"
+        "bsonType": "array",
+        "items": {
+          "bsonType": "object",
+          "required": [
+            "_id",
+            "label"
+          ],
+          "properties": {
+            "_id": {
+              "bsonType": "string"
+            },
+            "label": {
+              "bsonType": "string"
+            },
+            "description": {
+              "bsonType": "string"
+            }
+          }
+        }
       },
       "tasks": {
-        "bsonType": "string"
+        "bsonType": "array",
+        "items": {
+          "bsonType": "object",
+          "required": [
+            "labelStatus"
+          ],
+          "properties": {
+            "labelStatus": {
+              "bsonType": "string"
+            },
+            "label": {
+              "bsonType": "string"
+            },
+            "description": {
+              "bsonType": "string"
+            }
+          }
+        }
       },
       "serviceBpmn": {
-        "bsonType": "object"
+        "bsonType": "object",
+        "items": {
+          "bsonType": "object",
+          "required": [
+            "_id",
+            "label"
+          ],
+          "properties": {
+            "_id": {
+              "bsonType": "string"
+            },
+            "label": {
+              "bsonType": "string"
+            },
+            "serviceBpmn": {
+              "bsonType": "object"
+            }
+          }
+        }
       }
     }
   }

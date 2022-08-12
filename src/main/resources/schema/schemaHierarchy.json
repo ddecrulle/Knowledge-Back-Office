@@ -13,16 +13,19 @@
       "label": {
         "bsonType": "string"
       },
+      "description": {
+        "bsonType": "string"
+      },
       "children": {
         "bsonType": "array",
         "items": {
           "bsonType": "object",
           "required": [
-            "id",
+            "_id",
             "label"
           ],
           "properties": {
-            "id": {
+            "_id": {
               "bsonType": "string"
             },
             "label": {

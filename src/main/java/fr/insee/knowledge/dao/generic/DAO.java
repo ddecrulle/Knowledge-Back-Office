@@ -6,7 +6,6 @@ import com.mongodb.bulk.BulkWriteResult;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Projections;
 import com.mongodb.client.model.ReplaceOneModel;
 import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.WriteModel;
@@ -75,8 +74,7 @@ public class DAO<T extends GenericIDLabel> implements IDao<T> {
                     "\nupdated " + this.collectionName + " : " + result.getModifiedCount() +
                     "\ndeleted " + this.collectionName + " : " + result.getDeletedCount());
         } catch (MongoBulkWriteException exception) {
-            LOGGER.error(String.valueOf(exception));
-            return ("A Mongo BulkWriteException occured with the following error : " + exception);
+            return (exception.toString());
         }
     }
 
