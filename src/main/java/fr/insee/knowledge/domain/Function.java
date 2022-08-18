@@ -5,22 +5,22 @@ import java.util.List;
 public class Function extends GenericIDLabel {
     private String description;
     private int dispo;
-    private String idGsbpm;
+    private ProductOrGsbpm gsbpm;
     private String idProduct;
     private List<GenericIDLabel> users;
-    private List<Tools> tools;
+    private List<ProductOrGsbpm> products;
     private List<Task> tasks;
 
     private ServiceBpmn serviceBpmn;
 
-    public Function(String id, String label, String description, int dispo, String idGsbpm, String idProduct, List<GenericIDLabel> users, List<Tools> tools, List<Task> tasks, ServiceBpmn serviceBpmn) {
+    public Function(String id, String label, String description, int dispo, ProductOrGsbpm gsbpm, String idProduct, List<GenericIDLabel> users, List<ProductOrGsbpm> tools, List<Task> tasks, ServiceBpmn serviceBpmn) {
         super(id, label);
         this.description = description;
         this.dispo = dispo;
-        this.idGsbpm = idGsbpm;
+        this.gsbpm = gsbpm;
         this.idProduct = idProduct;
         this.users = users;
-        this.tools = tools;
+        this.products = products;
         this.tasks = tasks;
         this.serviceBpmn = serviceBpmn;
     }
@@ -45,12 +45,12 @@ public class Function extends GenericIDLabel {
         this.dispo = dispo;
     }
 
-    public String getIdGsbpm() {
-        return idGsbpm;
+    public ProductOrGsbpm getGsbpm() {
+        return gsbpm;
     }
 
-    public void setIdGsbpm(String idGsbpm) {
-        this.idGsbpm = idGsbpm;
+    public void setGsbpm(ProductOrGsbpm gsbpm) {
+        this.gsbpm = gsbpm;
     }
 
     public String getIdProduct() {
@@ -69,12 +69,12 @@ public class Function extends GenericIDLabel {
         this.users = users;
     }
 
-    public List<Tools> getTools() {
-        return tools;
+    public List<ProductOrGsbpm> getProducts() {
+        return products;
     }
 
-    public void setTools(List<Tools> tools) {
-        this.tools = tools;
+    public void setProducts(List<ProductOrGsbpm> products) {
+        this.products = products;
     }
 
     public List<Task> getTasks() {

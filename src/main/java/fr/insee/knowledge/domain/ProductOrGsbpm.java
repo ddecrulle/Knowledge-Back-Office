@@ -1,16 +1,16 @@
 package fr.insee.knowledge.domain;
 
-public class Tools extends GenericIDLabel {
+public class ProductOrGsbpm extends GenericIDLabel {
     private String description;
 
-    public Tools() {
+    public ProductOrGsbpm() {
     }
 
-    public Tools(String id, String label) {
+    public ProductOrGsbpm(String id, String label) {
         super(id, label);
     }
 
-    public Tools(String id, String label, String description) {
+    public ProductOrGsbpm(String id, String label, String description) {
         super(id, label);
         this.description = description;
     }
