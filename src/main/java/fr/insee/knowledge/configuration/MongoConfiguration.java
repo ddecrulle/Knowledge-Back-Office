@@ -30,7 +30,8 @@ public class MongoConfiguration {
 
     private MongoClient mongoClient() {
         logger.info("Create mongoClient");
-        return MongoClients.create(mongoUri);
+        //we don't auth as admin
+        return MongoClients.create(mongoUri + "?authSource=" + database);
     }
 
     @Bean(name = "mongoDatabase")
