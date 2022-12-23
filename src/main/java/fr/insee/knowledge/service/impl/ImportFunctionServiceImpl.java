@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.knowledge.constants.Constants;
 import fr.insee.knowledge.dao.FunctionDAO;
 import fr.insee.knowledge.domain.Function;
-import fr.insee.knowledge.domain.Services;
+import fr.insee.knowledge.domain.Service;
 import fr.insee.knowledge.service.ImportFunctionService;
 
 import java.io.IOException;
@@ -37,31 +37,31 @@ public class ImportFunctionServiceImpl implements ImportFunctionService {
         List<Function> listFunction = new ArrayList<>();
         if (rootNode.isArray()) {
             for (JsonNode node : rootNode) {
-                recursiveMapping(listFunction, node, new Services());
+                recursiveMapping(listFunction, node, new Service());
             }
         }
         return listFunction;
     }
 
-    private void recursiveMapping(List<Function> functionList, JsonNode jsonNode, Services currentServices) throws JsonProcessingException {
-        currentServices.setId(jsonNode.get(Constants.idField).asText());
-        currentServices.setLabel(jsonNode.get(Constants.labelField).asText());
+    private void recursiveMapping(List<Function> functionList, JsonNode jsonNode, Service currentService) throws JsonProcessingException {
+        currentService.setId(jsonNode.get(Constants.idField).asText());
+        currentService.setLabel(jsonNode.get(Constants.labelField).asText());
 
         JsonNode functionNodeArray = jsonNode.get(Constants.functionField);
         if (functionNodeArray != null) {
             for (JsonNode functionNode : functionNodeArray) {
                 Function function = mapper.treeToValue(functionNode, Function.class);
-                function.setServiceBpmn(currentServices);
+                function.setService(currentService);
                 functionList.add(function);
             }
         }
         JsonNode node = jsonNode.get(Constants.serviceField);
         if (node != null) {
             for (JsonNode serviceNode : node) {
-                Services services = new Services();
+                Service service = new Service();
                 //TODO test if service exist in database
-                services.setService(currentServices);
-                recursiveMapping(functionList, serviceNode, services);
+                service.setService(currentService);
+                recursiveMapping(functionList, serviceNode, service);
             }
         }
     }

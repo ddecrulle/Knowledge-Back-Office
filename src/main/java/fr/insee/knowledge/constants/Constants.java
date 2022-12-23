@@ -29,7 +29,7 @@ public class Constants {
     public static final String idProductFiled = "products";
     public static final String gsbpmField = "gsbpm";
     public static final String labelField = "label";
-    public static final String serviceField = "services";
+    public static final String serviceField = "service";
     public static final String descriptionField = "description";
     public static final String dispoField = "dispo";
     public static final String tasksField = "tasks";

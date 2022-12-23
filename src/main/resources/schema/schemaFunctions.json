@@ -11,7 +11,7 @@
       "users",
       "products",
       "tasks",
-      "serviceBpmn"
+      "services"
     ],
     "properties": {
       "_id": {
@@ -107,7 +107,7 @@
           }
         }
       },
-      "serviceBpmn": {
+      "services": {
         "bsonType": "object",
         "items": {
           "bsonType": "object",
@@ -122,7 +122,7 @@
             "label": {
               "bsonType": "string"
             },
-            "serviceBpmn": {
+            "services": {
               "bsonType": "object"
             }
           }
