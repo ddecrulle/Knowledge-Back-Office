@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.knowledge.constants.Constants;
 import fr.insee.knowledge.dao.FunctionDAO;
 import fr.insee.knowledge.domain.Function;
-import fr.insee.knowledge.domain.ServiceBpmn;
+import fr.insee.knowledge.domain.Service;
 import fr.insee.knowledge.service.ImportFunctionService;
 
 import java.io.IOException;
@@ -37,13 +37,13 @@ public class ImportFunctionServiceImpl implements ImportFunctionService {
         List<Function> listFunction = new ArrayList<>();
         if (rootNode.isArray()) {
             for (JsonNode node : rootNode) {
-                recursiveMapping(listFunction, node, new ServiceBpmn());
+                recursiveMapping(listFunction, node, new Service());
             }
         }
         return listFunction;
     }
 
-    private void recursiveMapping(List<Function> functionList, JsonNode jsonNode, ServiceBpmn currentService) throws JsonProcessingException {
+    private void recursiveMapping(List<Function> functionList, JsonNode jsonNode, Service currentService) throws JsonProcessingException {
         currentService.setId(jsonNode.get(Constants.idField).asText());
         currentService.setLabel(jsonNode.get(Constants.labelField).asText());
 
@@ -58,9 +58,9 @@ public class ImportFunctionServiceImpl implements ImportFunctionService {
         JsonNode node = jsonNode.get(Constants.serviceField);
         if (node != null) {
             for (JsonNode serviceNode : node) {
-                ServiceBpmn service = new ServiceBpmn();
+                Service service = new Service();
                 //TODO test if service exist in database
-                service.setServiceBpmn(currentService);
+                service.setService(currentService);
                 recursiveMapping(functionList, serviceNode, service);
             }
         }
