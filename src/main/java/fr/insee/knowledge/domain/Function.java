@@ -11,9 +11,9 @@ public class Function extends GenericIDLabel {
     private List<ProductOrGsbpm> products;
     private List<Task> tasks;
 
-    private Service serviceBpmn;
+    private Services servicesBpmn;
 
-    public Function(String id, String label, String description, int dispo, ProductOrGsbpm gsbpm, String idProduct, List<GenericIDLabel> users, List<ProductOrGsbpm> tools, List<Task> tasks, Service serviceBpmn) {
+    public Function(String id, String label, String description, int dispo, ProductOrGsbpm gsbpm, String idProduct, List<GenericIDLabel> users, List<ProductOrGsbpm> tools, List<Task> tasks, Services servicesBpmn) {
         super(id, label);
         this.description = description;
         this.dispo = dispo;
@@ -22,7 +22,7 @@ public class Function extends GenericIDLabel {
         this.users = users;
         this.products = products;
         this.tasks = tasks;
-        this.serviceBpmn = serviceBpmn;
+        this.servicesBpmn = servicesBpmn;
     }
 
     public Function() {
@@ -85,11 +85,11 @@ public class Function extends GenericIDLabel {
         this.tasks = tasks;
     }
 
-    public Service getServiceBpmn() {
-        return serviceBpmn;
+    public Services getServiceBpmn() {
+        return servicesBpmn;
     }
 
-    public void setServiceBpmn(Service service) {
-        this.serviceBpmn = service;
+    public void setServiceBpmn(Services services) {
+        this.servicesBpmn = services;
     }
 }
