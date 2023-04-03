@@ -1,9 +1,11 @@
 package fr.insee.knowledge.domain.hierarchy;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import fr.insee.knowledge.domain.GenericIDLabel;
 
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Hierarchy<T extends Hierarchy> extends GenericIDLabel {
     private List<T> children;
 
