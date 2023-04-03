@@ -13,7 +13,7 @@ public interface IDao<T extends GenericIDLabel> {
 
     FindIterable<T> findByKeyValue(String key, String value);
 
-    T FindById(String idValue);
+    T findById(String idValue);
 
     List<T> getAllDocuments();
 }

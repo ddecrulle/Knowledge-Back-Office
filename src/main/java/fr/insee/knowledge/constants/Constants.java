@@ -26,8 +26,12 @@ public class Constants {
     //Function JsonFields
     public static final String functionField = "function";
     public static final String idField = "id";
-    public static final String idProductFiled = "products";
-    public static final String gsbpmField = "gsbpm";
+    public static final String idProductsDocument = "products";
+    public static final String idGsbpmDocument = "gsbpm";
+    public static final String idServicesDocument = "services";
+    public static final String idUsersDocument = "users";
+    public static final String idStatusDocument = "status";
+
     public static final String labelField = "label";
     public static final String serviceField = "service";
     public static final String descriptionField = "description";

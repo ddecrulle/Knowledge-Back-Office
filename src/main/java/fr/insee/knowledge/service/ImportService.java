@@ -4,6 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ImportService {
-    List<String> importHierarchyAndFunction() throws IOException;
+    String importHierarchyAndFunction() throws IOException;
 
 }

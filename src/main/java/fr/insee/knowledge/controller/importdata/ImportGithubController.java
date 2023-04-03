@@ -1,12 +1,9 @@
 package fr.insee.knowledge.controller.importdata;
 
-import fr.insee.knowledge.constants.Constants;
-import fr.insee.knowledge.service.facade.ImportServiceFacade;
+import fr.insee.knowledge.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,59 +15,65 @@ import java.util.List;
 
 @Tag(name = "Import Data", description = "Import Data from Github")
 @RestController
+@Slf4j
 @RequestMapping(path = "/import")
 public class ImportGithubController {
-    @Autowired
-    private ImportServiceFacade importService;
+    private ImportService importService;
+    private HierarchyProductSvc hierarchyProductSvc;
+    private HierarchyGsbpmSvc hierarchyGsbpmSvc;
+    private HierarchyUserSvc hierarchyUserSvc;
+    private HierarchyServiceSvc hierarchyServiceSvc;
 
-    private final static Logger logger = LoggerFactory.getLogger(ImportGithubController.class);
+    public ImportGithubController(ImportService importService, HierarchyProductSvc hierarchyProductSvc, HierarchyGsbpmSvc hierarchyGsbpmSvc, HierarchyUserSvc hierarchyUserSvc, HierarchyServiceSvc hierarchyServiceSvc, FunctionService functionService) {
+        this.importService = importService;
+        this.hierarchyProductSvc = hierarchyProductSvc;
+        this.hierarchyGsbpmSvc = hierarchyGsbpmSvc;
+        this.hierarchyUserSvc = hierarchyUserSvc;
+        this.hierarchyServiceSvc = hierarchyServiceSvc;
+        this.functionService = functionService;
+    }
+
+    private FunctionService functionService;
 
     @Operation(summary = "Import Functions")
     @GetMapping(path = "/functions")
     public ResponseEntity<String> importFunctions() throws IOException {
-        String result = importService.importListFunctions(Constants.GithubFunctionFile);
+        String result = functionService.importListFunctions();
         return new ResponseEntity<String>(result, HttpStatus.OK);
     }
 
     @Operation(summary = "Import GSBPM")
     @GetMapping(path = "/hierarchy/gsbpm")
     public ResponseEntity<String> importGsbpm() throws IOException {
-        String result = importService.importHierarchy(Constants.GithubGsbpmFile);
-        return new ResponseEntity<String>(result, HttpStatus.OK);
-    }
-
-    @Operation(summary = "Import Status")
-    @GetMapping(path = "/hierarchy/status")
-    public ResponseEntity<String> importStatus() throws IOException {
-        String result = importService.importHierarchy(Constants.GithubStatusFile);
+        String result = hierarchyGsbpmSvc.importGsbpm();
         return new ResponseEntity<String>(result, HttpStatus.OK);
     }
 
     @Operation(summary = "Import Services")
     @GetMapping(path = "/hierarchy/services")
     public ResponseEntity<String> importServices() throws IOException {
-        String result = importService.importHierarchy(Constants.GithubServicesFile);
+        String result = hierarchyServiceSvc.importService();
         return new ResponseEntity<String>(result, HttpStatus.OK);
     }
 
     @Operation(summary = "Import Products")
     @GetMapping(path = "/hierarchy/products")
     public ResponseEntity<String> importProducts() throws IOException {
-        String result = importService.importHierarchy(Constants.GithubProductsFile);
+        String result = hierarchyProductSvc.importProduct();
         return new ResponseEntity<String>(result, HttpStatus.OK);
     }
 
     @Operation(summary = "Import Users")
     @GetMapping(path = "/hierarchy/user")
     public ResponseEntity<String> importUsers() throws IOException {
-        String result = importService.importHierarchy(Constants.GithubUserFile);
+        String result = hierarchyUserSvc.importUser();
         return new ResponseEntity<String>(result, HttpStatus.OK);
     }
 
     @Operation(summary = "Import All")
     @GetMapping(path = "/import-hierarchy-and-functions")
     public ResponseEntity<String> importHierarchyAndFunction() throws IOException {
-        List<String> results = importService.importHierarchyAndFunction();
-        return new ResponseEntity<String>(results.toString(), HttpStatus.OK);
+        String results = importService.importHierarchyAndFunction();
+        return new ResponseEntity<String>(results, HttpStatus.OK);
     }
 }

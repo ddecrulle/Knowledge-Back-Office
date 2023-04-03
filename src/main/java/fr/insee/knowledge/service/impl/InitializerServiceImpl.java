@@ -7,8 +7,8 @@ import com.mongodb.client.model.ValidationAction;
 import com.mongodb.client.model.ValidationLevel;
 import com.mongodb.client.model.ValidationOptions;
 import fr.insee.knowledge.constants.Constants;
+import fr.insee.knowledge.service.ImportService;
 import fr.insee.knowledge.service.InitializerService;
-import fr.insee.knowledge.service.facade.ImportServiceFacade;
 import fr.insee.knowledge.utils.Utils;
 import org.bson.Document;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public class InitializerServiceImpl implements InitializerService {
     private MongoDatabase mongoDatabase;
 
     @Autowired
-    private ImportServiceFacade importService;
+    private ImportService importService;
 
     private final static Logger logger = LoggerFactory.getLogger(InitializerServiceImpl.class);
 
@@ -53,10 +53,10 @@ public class InitializerServiceImpl implements InitializerService {
     public void importDataFromGithub() throws IOException {
         logger.info("Import Data from Github");
         try {
-            List<String> result = importService.importHierarchyAndFunction();
+            String result = importService.importHierarchyAndFunction();
             logger.info(String.valueOf(result));
         } catch (Exception e) {
-            logger.error("Error could not import data from github. Execption occured " + e);
+            logger.error("Error could not import data from github. Execption occured ", e);
         }
     }
 }

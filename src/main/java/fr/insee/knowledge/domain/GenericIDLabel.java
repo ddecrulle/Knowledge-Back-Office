@@ -4,6 +4,22 @@ public class GenericIDLabel {
     private String id;
     private String label;
 
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public GenericIDLabel(String id, String label, String description) {
+        this.id = id;
+        this.label = label;
+        this.description = description;
+    }
+
     public GenericIDLabel() {
     }
 

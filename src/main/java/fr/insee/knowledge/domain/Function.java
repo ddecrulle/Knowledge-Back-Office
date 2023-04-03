@@ -3,37 +3,26 @@ package fr.insee.knowledge.domain;
 import java.util.List;
 
 public class Function extends GenericIDLabel {
-    private String description;
     private int dispo;
-    private ProductOrGsbpm gsbpm;
+    private GenericIDLabel gsbpm;
     private String idProduct;
     private List<GenericIDLabel> users;
-    private List<ProductOrGsbpm> products;
+    private List<GenericIDLabel> products;
     private List<Task> tasks;
     private Service service;
 
-    public Function(String id, String label, String description, int dispo, ProductOrGsbpm gsbpm, String idProduct, List<GenericIDLabel> users, List<ProductOrGsbpm> tools, List<Task> tasks, Service service) {
-        super(id, label);
-        this.description = description;
+    public Function(String id, String label, String description, int dispo, Gsbpm gsbpm, String idProduct, List<GenericIDLabel> users, List<Gsbpm> tools, List<Task> tasks, Service service) {
+        super(id, label, description);
         this.dispo = dispo;
         this.gsbpm = gsbpm;
         this.idProduct = idProduct;
         this.users = users;
-        this.products = products;
         this.tasks = tasks;
         this.service = service;
     }
 
     public Function() {
         super();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public int getDispo() {
@@ -44,11 +33,11 @@ public class Function extends GenericIDLabel {
         this.dispo = dispo;
     }
 
-    public ProductOrGsbpm getGsbpm() {
+    public GenericIDLabel getGsbpm() {
         return gsbpm;
     }
 
-    public void setGsbpm(ProductOrGsbpm gsbpm) {
+    public void setGsbpm(GenericIDLabel gsbpm) {
         this.gsbpm = gsbpm;
     }
 
@@ -68,11 +57,11 @@ public class Function extends GenericIDLabel {
         this.users = users;
     }
 
-    public List<ProductOrGsbpm> getProducts() {
+    public List<GenericIDLabel> getProducts() {
         return products;
     }
 
-    public void setProducts(List<ProductOrGsbpm> products) {
+    public void setProducts(List<GenericIDLabel> products) {
         this.products = products;
     }
 

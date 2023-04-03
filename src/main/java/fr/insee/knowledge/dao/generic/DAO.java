@@ -9,6 +9,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.ReplaceOneModel;
 import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.WriteModel;
+import com.mongodb.client.result.UpdateResult;
 import fr.insee.knowledge.domain.GenericIDLabel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,8 +52,7 @@ public class DAO<T extends GenericIDLabel> implements IDao<T> {
 
     public String insertOrReplaceOne(T document) {
         try {
-            mongoCollection.replaceOne(eq("_id", document.getId()), document, new ReplaceOptions().upsert(true));
-            return ("Success! The document is imported in the database \n");
+            return mongoCollection.replaceOne(eq("_id", document.getId()), document, new ReplaceOptions().upsert(true)).toString() + "\n";
         } catch (MongoException exception) {
             return ("Error ! Unable to insert document : " + document.getId() + " to an error: " + exception);
 
@@ -83,7 +83,7 @@ public class DAO<T extends GenericIDLabel> implements IDao<T> {
         return iterable;
     }
 
-    public T FindById(String value) {
+    public T findById(String value) {
         return findByKeyValue("_id", value).first();
     }
 

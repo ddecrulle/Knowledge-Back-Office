@@ -1,47 +1,37 @@
 package fr.insee.knowledge.service.impl;
 
-import fr.insee.knowledge.constants.Constants;
-import fr.insee.knowledge.dao.FunctionDAO;
-import fr.insee.knowledge.dao.HierarchyDAO;
-import fr.insee.knowledge.service.ImportFunctionService;
-import fr.insee.knowledge.service.ImportHierarchyService;
-import fr.insee.knowledge.service.ImportService;
+import fr.insee.knowledge.service.*;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 //TODO Catch and log all exception
 
-
+@Service
 public class ImportServiceImpl implements ImportService {
-    private final FunctionDAO functionDAO;
-    private final HierarchyDAO hierarchyDAO;
-    private final String githubRepository;
 
-    private final ImportFunctionService importFunctionService;
-    private final ImportHierarchyService importHierarchyService;
+    private final FunctionService functionService;
+    private final HierarchyServiceSvc hierarchyServiceSvc;
+    private final HierarchyUserSvc hierarchyUserSvc;
+    private final HierarchyGsbpmSvc hierarchyGsbpmSvc;
+    private final HierarchyProductSvc hierarchyProductSvc;
 
-
-    public ImportServiceImpl(FunctionDAO functionDAO, HierarchyDAO hierarchyDAO, String githubRepository) {
-        this.functionDAO = functionDAO;
-        this.hierarchyDAO = hierarchyDAO;
-        this.githubRepository = githubRepository;
-        this.importFunctionService = new ImportFunctionServiceImpl(functionDAO, githubRepository);
-        this.importHierarchyService = new ImportHierarchyServiceImpl(hierarchyDAO, githubRepository);
+    public ImportServiceImpl(FunctionService functionService, HierarchyServiceSvc hierarchyServiceSvc, HierarchyUserSvc hierarchyUserSvc, HierarchyGsbpmSvc hierarchyGsbpmSvc, HierarchyProductSvc hierarchyProductSvc) {
+        this.functionService = functionService;
+        this.hierarchyServiceSvc = hierarchyServiceSvc;
+        this.hierarchyUserSvc = hierarchyUserSvc;
+        this.hierarchyGsbpmSvc = hierarchyGsbpmSvc;
+        this.hierarchyProductSvc = hierarchyProductSvc;
     }
 
-    public List<String> importHierarchyAndFunction() throws IOException {
-        List<String> results = new ArrayList<String>();
-        Constants.ListHierarchy.forEach(filename -> {
-            try {
-                results.add(filename + " " + importHierarchyService.importHierarchy(filename));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        results.add(Constants.GithubFunctionFile + " " + importFunctionService.importListFunctions(Constants.GithubFunctionFile));
-        return results;
+    public String importHierarchyAndFunction() throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(hierarchyGsbpmSvc.importGsbpm());
+        stringBuilder.append(hierarchyProductSvc.importProduct());
+        stringBuilder.append(hierarchyUserSvc.importUser());
+        stringBuilder.append(hierarchyServiceSvc.importService());
+        stringBuilder.append(functionService.importListFunctions());
+        return stringBuilder.toString();
     }
 
 }
