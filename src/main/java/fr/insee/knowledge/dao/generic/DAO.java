@@ -9,11 +9,11 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.ReplaceOneModel;
 import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.WriteModel;
-import com.mongodb.client.result.UpdateResult;
 import fr.insee.knowledge.domain.GenericIDLabel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.GenericTypeResolver;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -37,11 +37,10 @@ public class DAO<T extends GenericIDLabel> implements IDao<T> {
     /**
      * Create a new BasicDAO
      *
-     * @param entityClass    the class of the POJO to persist using this DAO
      * @param collectionName the name of the collection to persist entity
      */
-    public DAO(final Class<T> entityClass, final String collectionName) {
-        this.entityClass = entityClass;
+    public DAO(final String collectionName) {
+        this.entityClass = (Class<T>) GenericTypeResolver.resolveTypeArgument(getClass(), DAO.class);
         this.collectionName = collectionName;
     }
 

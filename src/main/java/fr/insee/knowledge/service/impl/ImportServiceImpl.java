@@ -11,12 +11,13 @@ import java.io.IOException;
 public class ImportServiceImpl implements ImportService {
 
     private final FunctionService functionService;
-    private final HierarchyServiceSvc hierarchyServiceSvc;
-    private final HierarchyUserSvc hierarchyUserSvc;
-    private final HierarchyGsbpmSvc hierarchyGsbpmSvc;
-    private final HierarchyProductSvc hierarchyProductSvc;
+    private final HierarchySvcServiceImpl hierarchyServiceSvc;
+    private final HierarchyUserServiceImpl hierarchyUserSvc;
+    private final HierarchyGsbpmServiceImpl hierarchyGsbpmSvc;
+    private final HierarchyProductServiceImpl hierarchyProductSvc;
 
-    public ImportServiceImpl(FunctionService functionService, HierarchyServiceSvc hierarchyServiceSvc, HierarchyUserSvc hierarchyUserSvc, HierarchyGsbpmSvc hierarchyGsbpmSvc, HierarchyProductSvc hierarchyProductSvc) {
+    public ImportServiceImpl(FunctionService functionService, HierarchySvcServiceImpl hierarchyServiceSvc, HierarchyUserServiceImpl hierarchyUserSvc,
+                             HierarchyGsbpmServiceImpl hierarchyGsbpmSvc, HierarchyProductServiceImpl hierarchyProductSvc) {
         this.functionService = functionService;
         this.hierarchyServiceSvc = hierarchyServiceSvc;
         this.hierarchyUserSvc = hierarchyUserSvc;
@@ -26,10 +27,10 @@ public class ImportServiceImpl implements ImportService {
 
     public String importHierarchyAndFunction() throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(hierarchyGsbpmSvc.importGsbpm());
-        stringBuilder.append(hierarchyProductSvc.importProduct());
-        stringBuilder.append(hierarchyUserSvc.importUser());
-        stringBuilder.append(hierarchyServiceSvc.importService());
+        stringBuilder.append(hierarchyGsbpmSvc.importHierarchy());
+        stringBuilder.append(hierarchyProductSvc.importHierarchy());
+        stringBuilder.append(hierarchyUserSvc.importHierarchy());
+        stringBuilder.append(hierarchyServiceSvc.importHierarchy());
         stringBuilder.append(functionService.importListFunctions());
         return stringBuilder.toString();
     }

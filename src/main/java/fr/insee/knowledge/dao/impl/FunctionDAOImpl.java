@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class FunctionDAOImpl extends DAO<Function> implements FunctionDAO {
     public FunctionDAOImpl() {
-        super(Function.class, Constants.CollectionFunctions);
+        super(Constants.CollectionFunctions);
     }
 
 }

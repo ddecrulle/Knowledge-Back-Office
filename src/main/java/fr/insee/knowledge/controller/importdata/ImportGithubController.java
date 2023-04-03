@@ -1,6 +1,10 @@
 package fr.insee.knowledge.controller.importdata;
 
 import fr.insee.knowledge.service.*;
+import fr.insee.knowledge.service.impl.HierarchyGsbpmServiceImpl;
+import fr.insee.knowledge.service.impl.HierarchyProductServiceImpl;
+import fr.insee.knowledge.service.impl.HierarchySvcServiceImpl;
+import fr.insee.knowledge.service.impl.HierarchyUserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -19,12 +23,13 @@ import java.util.List;
 @RequestMapping(path = "/import")
 public class ImportGithubController {
     private ImportService importService;
-    private HierarchyProductSvc hierarchyProductSvc;
-    private HierarchyGsbpmSvc hierarchyGsbpmSvc;
-    private HierarchyUserSvc hierarchyUserSvc;
-    private HierarchyServiceSvc hierarchyServiceSvc;
+    private HierarchyProductServiceImpl hierarchyProductSvc;
+    private HierarchyGsbpmServiceImpl hierarchyGsbpmSvc;
+    private HierarchyUserServiceImpl hierarchyUserSvc;
+    private HierarchySvcServiceImpl hierarchyServiceSvc;
 
-    public ImportGithubController(ImportService importService, HierarchyProductSvc hierarchyProductSvc, HierarchyGsbpmSvc hierarchyGsbpmSvc, HierarchyUserSvc hierarchyUserSvc, HierarchyServiceSvc hierarchyServiceSvc, FunctionService functionService) {
+    public ImportGithubController(ImportService importService, HierarchyProductServiceImpl hierarchyProductSvc, HierarchyGsbpmServiceImpl hierarchyGsbpmSvc,
+                                  HierarchyUserServiceImpl hierarchyUserSvc, HierarchySvcServiceImpl hierarchyServiceSvc, FunctionService functionService) {
         this.importService = importService;
         this.hierarchyProductSvc = hierarchyProductSvc;
         this.hierarchyGsbpmSvc = hierarchyGsbpmSvc;
@@ -45,28 +50,28 @@ public class ImportGithubController {
     @Operation(summary = "Import GSBPM")
     @GetMapping(path = "/hierarchy/gsbpm")
     public ResponseEntity<String> importGsbpm() throws IOException {
-        String result = hierarchyGsbpmSvc.importGsbpm();
+        String result = hierarchyGsbpmSvc.importHierarchy();
         return new ResponseEntity<String>(result, HttpStatus.OK);
     }
 
     @Operation(summary = "Import Services")
     @GetMapping(path = "/hierarchy/services")
     public ResponseEntity<String> importServices() throws IOException {
-        String result = hierarchyServiceSvc.importService();
+        String result = hierarchyServiceSvc.importHierarchy();
         return new ResponseEntity<String>(result, HttpStatus.OK);
     }
 
     @Operation(summary = "Import Products")
     @GetMapping(path = "/hierarchy/products")
     public ResponseEntity<String> importProducts() throws IOException {
-        String result = hierarchyProductSvc.importProduct();
+        String result = hierarchyProductSvc.importHierarchy();
         return new ResponseEntity<String>(result, HttpStatus.OK);
     }
 
     @Operation(summary = "Import Users")
     @GetMapping(path = "/hierarchy/user")
     public ResponseEntity<String> importUsers() throws IOException {
-        String result = hierarchyUserSvc.importUser();
+        String result = hierarchyUserSvc.importHierarchy();
         return new ResponseEntity<String>(result, HttpStatus.OK);
     }
 
