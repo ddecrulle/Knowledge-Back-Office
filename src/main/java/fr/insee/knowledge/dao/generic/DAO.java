@@ -25,9 +25,6 @@ import static com.mongodb.client.model.Filters.eq;
  * @param <T> the type of the entity, it extends GenericIDLabel
  */
 public class DAO<T extends GenericIDLabel> implements IDao<T> {
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(DAO.class);
-
     @Autowired
     private MongoDatabase mongoDatabase;
     protected MongoCollection<T> mongoCollection;

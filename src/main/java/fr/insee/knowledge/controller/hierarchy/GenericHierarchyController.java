@@ -21,7 +21,7 @@ public class GenericHierarchyController<T extends Hierarchy> {
 
     private final static Logger logger = LoggerFactory.getLogger(GenericHierarchyController.class);
 
-    private GenericHierarchyService<T> hierarchyService;
+    private final GenericHierarchyService<T> hierarchyService;
 
     public GenericHierarchyController(GenericHierarchyService<T> hierarchyService) {
         this.hierarchyService = hierarchyService;

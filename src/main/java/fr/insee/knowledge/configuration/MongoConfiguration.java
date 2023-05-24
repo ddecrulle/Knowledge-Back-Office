@@ -3,6 +3,7 @@ package fr.insee.knowledge.configuration;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
@@ -17,9 +18,8 @@ import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 @Configuration
+@Slf4j
 public class MongoConfiguration {
-    private static final Logger logger = LoggerFactory.getLogger(MongoConfiguration.class);
-
     private CodecProvider pojoCodecProvider = PojoCodecProvider.builder().automatic(true).build();
     private CodecRegistry pojoCodecRegistry = fromRegistries(getDefaultCodecRegistry(), fromProviders(pojoCodecProvider));
 
@@ -29,14 +29,14 @@ public class MongoConfiguration {
     private String mongoUri;
 
     private MongoClient mongoClient() {
-        logger.info("Create mongoClient");
+        log.info("Create mongoClient");
         //we don't auth as admin
         return MongoClients.create(mongoUri + "?authSource=" + database);
     }
 
     @Bean(name = "mongoDatabase")
     public MongoDatabase mongoDatabase() {
-        logger.info("Connection to database");
+        log.info("Connection to database");
         return mongoClient().getDatabase(database).withCodecRegistry(pojoCodecRegistry);
     }
 

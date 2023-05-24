@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Hierarchy", description = "")
 @RestController
 @RequestMapping(path = "/hierarchy")
-public class HierarchyServiceController extends GenericHierarchyController<HierarchySvc>{
-
-    private final static Logger logger = LoggerFactory.getLogger(HierarchyServiceController.class);
-
+public class HierarchyServiceController extends GenericHierarchyController<HierarchySvc> {
     public HierarchyServiceController(HierarchySvcServiceImpl hierarchyService) {
         super(hierarchyService);
     }
