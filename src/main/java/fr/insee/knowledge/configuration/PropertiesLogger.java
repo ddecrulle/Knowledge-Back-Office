@@ -16,13 +16,12 @@ import java.util.stream.StreamSupport;
 
 @Slf4j
 public class PropertiesLogger implements ApplicationListener<ApplicationEnvironmentPreparedEvent> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesLogger.class);
 
     @Override
     public void onApplicationEvent(@NonNull ApplicationEnvironmentPreparedEvent event) {
         final Environment env = event.getEnvironment();
-        LOGGER.info("====== Environment and configuration ======");
-        LOGGER.info("Active profiles: {}", Arrays.toString(env.getActiveProfiles()));
+        log.info("====== Environment and configuration ======");
+        log.info("Active profiles: {}", Arrays.toString(env.getActiveProfiles()));
         final MutablePropertySources sources = ((AbstractEnvironment) env).getPropertySources();
         StreamSupport.stream(sources.spliterator(), false)
                 .filter(ps -> ps instanceof EnumerablePropertySource)
@@ -31,8 +30,8 @@ public class PropertiesLogger implements ApplicationListener<ApplicationEnvironm
                 .distinct()
                 .filter(prop -> !(prop.contains("credentials") || prop.contains("password")))
                 .sorted()
-                .forEach(prop -> LOGGER.info("{}: {}", prop, env.getProperty(prop)));
-        LOGGER.info("===========================================");
+                .forEach(prop -> log.info("{}: {}", prop, env.getProperty(prop)));
+        log.info("===========================================");
     }
 
 }
