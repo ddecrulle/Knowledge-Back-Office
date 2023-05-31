@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,4 +25,12 @@ public class HierarchyGsbpmController extends GenericHierarchyController<Hierarc
     public ResponseEntity<HierarchyGsbpm> getGsbpm() {
         return getHierarchy();
     }
+
+    @Operation(summary = "Get a Sub Gsbpm by Id")
+    @GetMapping(path = "/gsbpm/{id}")
+    public ResponseEntity<HierarchyGsbpm> getGsbpmChildById(@PathVariable(value = "id") String id) {
+        return getHierarchy();
+    }
+
+
 }

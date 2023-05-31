@@ -6,7 +6,7 @@ import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Function extends GenericIDLabel {
-    private int dispo;
+    private Boolean dispo;
     private GenericIDLabel gsbpm;
     private String idProduct;
     private List<GenericIDLabel> users;
@@ -14,7 +14,7 @@ public class Function extends GenericIDLabel {
     private List<Task> tasks;
     private Service service;
 
-    public Function(String id, String label, String description, int dispo, Gsbpm gsbpm, String idProduct, List<GenericIDLabel> users, List<Gsbpm> tools, List<Task> tasks, Service service) {
+    public Function(String id, String label, String description, Boolean dispo, Gsbpm gsbpm, String idProduct, List<GenericIDLabel> users, List<Gsbpm> tools, List<Task> tasks, Service service) {
         super(id, label, description);
         this.dispo = dispo;
         this.gsbpm = gsbpm;
@@ -28,11 +28,11 @@ public class Function extends GenericIDLabel {
         super();
     }
 
-    public int getDispo() {
+    public Boolean getDispo() {
         return dispo;
     }
 
-    public void setDispo(int dispo) {
+    public void setDispo(Boolean dispo) {
         this.dispo = dispo;
     }
 

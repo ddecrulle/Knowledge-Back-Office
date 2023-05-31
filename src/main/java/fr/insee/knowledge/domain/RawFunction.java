@@ -3,7 +3,7 @@ package fr.insee.knowledge.domain;
 import java.util.List;
 
 public class RawFunction extends GenericIDLabel {
-    private int dispo;
+    private Boolean dispo;
     private String gsbpm;
     private String idProduct;
     private List<String> users;
@@ -11,7 +11,7 @@ public class RawFunction extends GenericIDLabel {
     private List<Task> tasks;
     private Service service;
 
-    public RawFunction(String id, String label, String description, int dispo, String gsbpm, String idProduct, List<String> users, List<String> products, List<Task> tasks, Service service) {
+    public RawFunction(String id, String label, String description, Boolean dispo, String gsbpm, String idProduct, List<String> users, List<String> products, List<Task> tasks, Service service) {
         super(id, label, description);
         this.dispo = dispo;
         this.gsbpm = gsbpm;
@@ -25,11 +25,11 @@ public class RawFunction extends GenericIDLabel {
     public RawFunction() {
     }
 
-    public int getDispo() {
+    public Boolean getDispo() {
         return dispo;
     }
 
-    public void setDispo(int dispo) {
+    public void setDispo(Boolean dispo) {
         this.dispo = dispo;
     }
 

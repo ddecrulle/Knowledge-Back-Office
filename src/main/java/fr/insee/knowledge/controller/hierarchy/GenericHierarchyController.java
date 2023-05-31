@@ -18,9 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 public class GenericHierarchyController<T extends Hierarchy> {
-
-    private final static Logger logger = LoggerFactory.getLogger(GenericHierarchyController.class);
-
     private final GenericHierarchyService<T> hierarchyService;
 
     public GenericHierarchyController(GenericHierarchyService<T> hierarchyService) {
@@ -30,4 +27,6 @@ public class GenericHierarchyController<T extends Hierarchy> {
     public ResponseEntity<T> getHierarchy() {
         return new ResponseEntity<T>(hierarchyService.getHierarchy(), HttpStatus.OK);
     }
+
+
 }

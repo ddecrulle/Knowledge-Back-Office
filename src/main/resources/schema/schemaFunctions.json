@@ -11,7 +11,7 @@
       "users",
       "products",
       "tasks",
-      "services"
+      "service"
     ],
     "properties": {
       "_id": {
@@ -24,24 +24,23 @@
         "bsonType": "string"
       },
       "dispo": {
-        "bsonType": "int"
+        "bsonType": "bool"
       },
       "gsbpm": {
-          "bsonType": "object",
-          "required": [
-            "_id",
-            "label"
-          ],
-          "properties": {
-            "_id": {
-              "bsonType": "string"
-            },
-            "label": {
-              "bsonType": "string"
-            },
-            "description": {
-              "bsonType": "string"
-            }
+        "bsonType": "object",
+        "required": [
+          "_id",
+          "label"
+        ],
+        "properties": {
+          "_id": {
+            "bsonType": "string"
+          },
+          "label": {
+            "bsonType": "string"
+          },
+          "description": {
+            "bsonType": "string"
           }
         }
       },
@@ -107,7 +106,7 @@
           }
         }
       },
-      "services": {
+      "service": {
         "bsonType": "object",
         "items": {
           "bsonType": "object",

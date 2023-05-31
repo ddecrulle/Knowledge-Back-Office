@@ -51,4 +51,8 @@ public class GenericIDLabel {
     public void setLabel(String label) {
         this.label = label;
     }
+
+    public boolean hasId(String targetId) {
+        return id.equals(targetId);
+    }
 }

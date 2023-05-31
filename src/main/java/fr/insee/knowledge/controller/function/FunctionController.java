@@ -18,9 +18,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/function")
 public class FunctionController {
-
-    private final static Logger logger = LoggerFactory.getLogger(FunctionController.class);
-
     @Autowired
     private FunctionService functionService;
 

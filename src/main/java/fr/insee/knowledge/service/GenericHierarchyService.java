@@ -11,4 +11,6 @@ public interface GenericHierarchyService<T extends Hierarchy> {
     String importHierarchy() throws IOException;
 
     T findHierarchyById(String id);
+
+    Hierarchy<T> findChildrenById(String idChildren);
 }

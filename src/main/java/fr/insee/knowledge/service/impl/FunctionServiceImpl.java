@@ -5,10 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.knowledge.constants.Constants;
 import fr.insee.knowledge.dao.FunctionDAO;
-import fr.insee.knowledge.dao.impl.HierarchyGsbpmDAOImpl;
-import fr.insee.knowledge.dao.impl.HierarchyProductDAOImpl;
-import fr.insee.knowledge.dao.impl.HierarchySvcDAOImpl;
-import fr.insee.knowledge.dao.impl.HierarchyUserDAOImpl;
 import fr.insee.knowledge.domain.Function;
 import fr.insee.knowledge.domain.GenericIDLabel;
 import fr.insee.knowledge.domain.RawFunction;
@@ -37,16 +33,16 @@ public class FunctionServiceImpl implements FunctionService {
     private FunctionDAO functionDAO;
 
     @Autowired
-    private HierarchyGsbpmDAOImpl gsbpmDAO;
+    private HierarchyProductServiceImpl hierarchyProductService;
 
     @Autowired
-    private HierarchyProductDAOImpl productDAO;
+    private HierarchyUserServiceImpl hierarchyUserService;
 
     @Autowired
-    private HierarchyUserDAOImpl userDAO;
+    private HierarchySvcServiceImpl hierarchySvcService;
 
     @Autowired
-    private HierarchySvcDAOImpl serviceDAO;
+    private HierarchyGsbpmServiceImpl hierarchyGsbpmService;
 
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -100,7 +96,7 @@ public class FunctionServiceImpl implements FunctionService {
             subService.setLabel(subServiceNode.get(Constants.labelField).asText());
             subService.setService(currentService);
 
-            if (serviceDAO.findById(subService.getId()) == null) {
+            if (hierarchySvcService.findChildrenById(subService.getId()) == null) {
                 validationErrors.add(String.format("Le service %s n'existe pas", subService.getId()));
             }
             recursiveMapping(functions, subServiceNode, subService, validationErrors);
@@ -118,6 +114,8 @@ public class FunctionServiceImpl implements FunctionService {
             RawFunction rawFunction = mapper.treeToValue(functionNode, RawFunction.class);
             Function function = new Function();
             function.setId(rawFunction.getId());
+            function.setLabel(rawFunction.getLabel());
+            function.setDescription(rawFunction.getDescription());
             function.setIdProduct(rawFunction.getIdProduct());
             function.setDispo(rawFunction.getDispo());
             function.setTasks(rawFunction.getTasks());
@@ -127,7 +125,7 @@ public class FunctionServiceImpl implements FunctionService {
             List<GenericIDLabel> users = new ArrayList<>();
 
             for (String idProduct : rawFunction.getProducts()) {
-                HierarchyProduct product = productDAO.findById(idProduct);
+                HierarchyProduct product = (HierarchyProduct) hierarchyProductService.findChildrenById(idProduct);
                 if (product == null) {
                     validationErrors.add(String.format("Le produit %s n'existe pas pour la fonction %s", idProduct, function.getId()));
                     continue;
@@ -136,7 +134,7 @@ public class FunctionServiceImpl implements FunctionService {
             }
 
             for (String idUser : rawFunction.getUsers()) {
-                HierarchyUser user = userDAO.findById(idUser);
+                HierarchyUser user = (HierarchyUser) hierarchyUserService.findChildrenById(idUser);
                 if (user == null) {
                     validationErrors.add(String.format("L'utilisateur %s n'existe pas pour la fonction %s", idUser, function.getId()));
                     continue;
@@ -145,7 +143,7 @@ public class FunctionServiceImpl implements FunctionService {
             }
 
             String idGsbpm = rawFunction.getGsbpm();
-            HierarchyGsbpm gsbpm = gsbpmDAO.findById(idGsbpm);
+            HierarchyGsbpm gsbpm = (HierarchyGsbpm) hierarchyGsbpmService.findChildrenById(idGsbpm);
             if (gsbpm == null) {
                 validationErrors.add(String.format("Le GSPM %s n'existe pas pour la fonction %s", idGsbpm, function.getId()));
             }
