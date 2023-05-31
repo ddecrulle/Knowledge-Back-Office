@@ -8,7 +8,6 @@ import org.springframework.core.GenericTypeResolver;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 
 public class GenericHierarchyServiceImpl<T extends Hierarchy> implements GenericHierarchyService<T> {
     private final DAO<T> hierarchyDAO;
@@ -44,4 +43,12 @@ public class GenericHierarchyServiceImpl<T extends Hierarchy> implements Generic
     public T findHierarchyById(String id) {
         return hierarchyDAO.findById(id);
     }
+
+    @Override
+    public Hierarchy<T> findChildrenById(String idChildren) {
+        Hierarchy<T> hierarchy = this.getHierarchy();
+        return hierarchy.getChildrenById(idChildren);
+    }
+
+
 }

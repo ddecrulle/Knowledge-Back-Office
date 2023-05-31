@@ -46,17 +46,7 @@ public class InitializerServiceImpl implements InitializerService {
             mongoDatabase.createCollection(Constants.CollectionHierarchy, getValidateOption("schemaHierarchy.json"));
             logger.info("Collections created");
         } catch (MongoCommandException | IOException e) {
-            logger.info("Collections already exists");
-        }
-    }
-
-    public void importDataFromGithub() throws IOException {
-        logger.info("Import Data from Github");
-        try {
-            String result = importService.importHierarchyAndFunction();
-            logger.info(String.valueOf(result));
-        } catch (Exception e) {
-            logger.error("Error could not import data from github. Execption occured ", e);
+            logger.info("Collections already exists", e);
         }
     }
 }

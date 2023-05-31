@@ -1,31 +1,28 @@
 package fr.insee.knowledge.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.util.List;
 
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class Function extends GenericIDLabel {
+public class RawFunction extends GenericIDLabel {
     private Boolean dispo;
-    private GenericIDLabel gsbpm;
+    private String gsbpm;
     private String idProduct;
-    private List<GenericIDLabel> users;
-    private List<GenericIDLabel> products;
+    private List<String> users;
+    private List<String> products;
     private List<Task> tasks;
     private Service service;
 
-    public Function(String id, String label, String description, Boolean dispo, Gsbpm gsbpm, String idProduct, List<GenericIDLabel> users, List<Gsbpm> tools, List<Task> tasks, Service service) {
+    public RawFunction(String id, String label, String description, Boolean dispo, String gsbpm, String idProduct, List<String> users, List<String> products, List<Task> tasks, Service service) {
         super(id, label, description);
         this.dispo = dispo;
         this.gsbpm = gsbpm;
         this.idProduct = idProduct;
         this.users = users;
+        this.products = products;
         this.tasks = tasks;
         this.service = service;
     }
 
-    public Function() {
-        super();
+    public RawFunction() {
     }
 
     public Boolean getDispo() {
@@ -36,11 +33,11 @@ public class Function extends GenericIDLabel {
         this.dispo = dispo;
     }
 
-    public GenericIDLabel getGsbpm() {
+    public String getGsbpm() {
         return gsbpm;
     }
 
-    public void setGsbpm(GenericIDLabel gsbpm) {
+    public void setGsbpm(String gsbpm) {
         this.gsbpm = gsbpm;
     }
 
@@ -52,19 +49,19 @@ public class Function extends GenericIDLabel {
         this.idProduct = idProduct;
     }
 
-    public List<GenericIDLabel> getUsers() {
+    public List<String> getUsers() {
         return users;
     }
 
-    public void setUsers(List<GenericIDLabel> users) {
+    public void setUsers(List<String> users) {
         this.users = users;
     }
 
-    public List<GenericIDLabel> getProducts() {
+    public List<String> getProducts() {
         return products;
     }
 
-    public void setProducts(List<GenericIDLabel> products) {
+    public void setProducts(List<String> products) {
         this.products = products;
     }
 

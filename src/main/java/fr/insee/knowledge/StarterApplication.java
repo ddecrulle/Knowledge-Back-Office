@@ -37,6 +37,5 @@ public class StarterApplication {
     @EventListener(ApplicationReadyEvent.class)
     public void doSomethingAfterStartup() throws IOException {
         initializer.createCollections();
-        initializer.importDataFromGithub();
     }
 }

@@ -9,5 +9,4 @@ public class HierarchyDAOImpl<T extends Hierarchy> extends DAO<T> {
     public HierarchyDAOImpl() {
         super(Constants.CollectionHierarchy);
     }
-
 }

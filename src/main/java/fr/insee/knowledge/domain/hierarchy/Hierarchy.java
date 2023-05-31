@@ -46,4 +46,19 @@ public class Hierarchy<T extends Hierarchy> extends GenericIDLabel {
     public void setChildren(List<T> children) {
         this.children = children;
     }
+
+    public Hierarchy<T> getChildrenById(String targetId) {
+        if (hasId(targetId)) {
+            return this;
+        }
+        if (this.children != null) {
+            for (T child : this.children) {
+                Hierarchy<T> found = child.getChildrenById(targetId);
+                if (found != null) {
+                    return found;
+                }
+            }
+        }
+        return null;
+    }
 }

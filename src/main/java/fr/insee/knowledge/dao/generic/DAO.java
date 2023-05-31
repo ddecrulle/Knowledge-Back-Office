@@ -55,7 +55,6 @@ public class DAO<T extends GenericIDLabel> implements IDao<T> {
         }
     }
 
-
     public String insertOrReplaceMany(List<T> documents) {
         try {
             List<WriteModel<T>> bulkOperations = new ArrayList<>();
