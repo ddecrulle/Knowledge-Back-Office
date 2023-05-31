@@ -13,6 +13,7 @@ import fr.insee.knowledge.domain.hierarchy.HierarchyProduct;
 import fr.insee.knowledge.domain.hierarchy.HierarchyUser;
 import fr.insee.knowledge.service.FunctionService;
 import fr.insee.knowledge.service.exceptions.FunctionValidationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import java.util.List;
 import static fr.insee.knowledge.constants.Constants.GithubFunctionFile;
 
 @Service
+@Slf4j
 public class FunctionServiceImpl implements FunctionService {
 
     @Value("${fr.insee.knowledge.git.access.rawrepository}")
@@ -118,7 +120,6 @@ public class FunctionServiceImpl implements FunctionService {
             function.setDescription(rawFunction.getDescription());
             function.setIdProduct(rawFunction.getIdProduct());
             function.setDispo(rawFunction.getDispo());
-            function.setTasks(rawFunction.getTasks());
             function.setService(service);
 
             List<GenericIDLabel> products = new ArrayList<>();
@@ -133,14 +134,27 @@ public class FunctionServiceImpl implements FunctionService {
                 products.add(product);
             }
 
-            for (String idUser : rawFunction.getUsers()) {
-                HierarchyUser user = (HierarchyUser) hierarchyUserService.findChildrenById(idUser);
-                if (user == null) {
-                    validationErrors.add(String.format("L'utilisateur %s n'existe pas pour la fonction %s", idUser, function.getId()));
-                    continue;
-                }
-                users.add(user);
+            try {
+                function.setTasks(rawFunction.getTasks());
+            } catch (Exception e) {
+                log.info(String.format("La function %s n'a pas de tache associée", function.getId()));
             }
+
+
+            try {
+                for (String idUser : rawFunction.getUsers()) {
+                    HierarchyUser user = (HierarchyUser) hierarchyUserService.findChildrenById(idUser);
+                    if (user == null) {
+                        validationErrors.add(String.format("L'utilisateur %s n'existe pas pour la fonction %s", idUser, function.getId()));
+                        continue;
+                    }
+                    users.add(user);
+                }
+                function.setUsers(users);
+            } catch (Exception e) {
+                log.info(String.format("La function %s n'a pas d'user associé", function.getId()));
+            }
+
 
             String idGsbpm = rawFunction.getGsbpm();
             HierarchyGsbpm gsbpm = (HierarchyGsbpm) hierarchyGsbpmService.findChildrenById(idGsbpm);
@@ -150,7 +164,6 @@ public class FunctionServiceImpl implements FunctionService {
 
             function.setGsbpm(gsbpm);
             function.setProducts(products);
-            function.setUsers(users);
             functions.add(function);
         }
     }

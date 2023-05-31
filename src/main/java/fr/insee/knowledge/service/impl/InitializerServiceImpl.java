@@ -46,7 +46,7 @@ public class InitializerServiceImpl implements InitializerService {
             mongoDatabase.createCollection(Constants.CollectionHierarchy, getValidateOption("schemaHierarchy.json"));
             logger.info("Collections created");
         } catch (MongoCommandException | IOException e) {
-            logger.info("Collections already exists", e);
+            logger.info("Collections already exists");
         }
     }
 }

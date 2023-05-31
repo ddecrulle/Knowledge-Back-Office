@@ -8,10 +8,7 @@
       "dispo",
       "gsbpm",
       "idProduct",
-      "users",
-      "products",
-      "tasks",
-      "service"
+      "products"
     ],
     "properties": {
       "_id": {
