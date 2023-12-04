@@ -1,5 +1,8 @@
-FROM openjdk:11
+FROM eclipse-temurin:11-jre-focal
+COPY ./target/*.jar /usr/local/app.jar
 
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+EXPOSE 8080
+RUN adduser knowledge-api
+USER knowledge-api
+
+CMD ["java","-jar","/usr/local/app.jar"]
