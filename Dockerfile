@@ -1,8 +1,13 @@
-FROM eclipse-temurin:11-jre-focal
-COPY ./target/*.jar /usr/local/app.jar
+FROM eclipse-temurin:21-jre-alpine
 
-EXPOSE 8080
-RUN adduser knowledge-api
-USER knowledge-api
+WORKDIR /opt/app/
+COPY ./target/*.jar /opt/app/app.jar
 
-CMD ["java","-jar","/usr/local/app.jar"]
+# Setup a non-root user context (security)
+RUN addgroup -g 1000 knowledge-api-group
+RUN adduser -D -s / -u 1000 knowledge-api-user -G knowledge-api-group
+RUN chown -R 1000:1000 /opt/app
+
+USER 1000
+
+ENTRYPOINT ["java", "-jar",  "/opt/app/app.jar"]
